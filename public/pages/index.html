@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wodking </title>
+
+    <link rel="stylesheet" href="../css/home.css">
+
+<body>
+
+    <nav class="navbar"></nav>
+
+    <!-- hero section -->
+    <header class="hero-section">
+        <div class="content">
+            <img src="../img/wodking1.png" class="logo" alt="">
+            <p class="sub-heading">best fashion collection of all time</p>
+        </div>
+    </header>
+
+
+
+    <section id="men-tshirt-products"></section>
+
+    <!-- collections -->
+    <section class="collection-container">
+        <a href="#" class="collection">
+            <img src="../img/Toomey_win.jpg" alt="">
+            <p class="collection-title">women <br> apparels</p>
+        </a>
+        <a href="#" class="collection">
+            <img src="../img/agustin.jpg" alt="">
+            <p class="collection-title">men <br> apparels</p>
+        </a>
+    </section>
+
+
+    <section id="shoes-products"></section>
+
+    <section class="features-wrapper">
+        <div class="feature">
+            <img src="img/rain.png" alt="Free Shipping">
+            <h3>Free Shipping</h3>
+            <p>Enjoy free shipping on all orders.</p>
+        </div>
+        <div class="feature">
+            <img src="img/rain.png" alt="24/7 Support">
+            <h3>24/7 Support</h3>
+            <p>We're here to help you anytime, day or night.</p>
+        </div>
+        <div class="feature">
+            <img src="img/rain.png" alt="Special Offers">
+            <h3>Special Offers</h3>
+            <p>Check out our latest deals and discounts.</p>
+        </div>
+    </section>
+
+    <footer></footer>
+
+    <script src="../js/nav.js"></script>
+    <script src="../js/footer.js"></script>
+    <script src="../css/home.css"></script>
+    <script src="../js/home.js"></script>
+    <script src="../js/cart.js"></script>
+
+
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            getProducts('Men Tshirt')
+                .then(data => {
+                    console.log('Datos obtenidos:', data); // Asegúrate de que data es el array que esperas.
+                    if (Array.isArray(data)) {
+                        createProductSlider(data, '#men-tshirt-products', 'shoes');
+                    } else {
+                        console.error('Expected an array but got:', data);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching products:', error);
+                });
+
+            getProducts('Men Tshirt')
+                .then(data => {
+                    console.log('Datos obtenidos (Segundo Slider):', data); // Revisa si este bloque también obtiene los datos correctos
+                    if (Array.isArray(data)) {
+                        createProductSlider(data, '#men-tshirt-products-2', 'accessories');
+                    } else {
+                        console.error('Expected an array but got:', data);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching products:', error);
+
+
+                });
+        });
+    </script>
+     
+    
+
+
+
+</body>
+
+</html>

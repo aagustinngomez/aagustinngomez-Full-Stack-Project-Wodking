@@ -1,0 +1,134 @@
+[
+    {
+      "name": "Men T-shirt",
+      "actualPrice": 30.99,
+      "sellPrice": 25.99,
+      "discount": 15,
+      "shortDes": "A comfortable men t-shirt",
+      "des": "Detailed description of the men t-shirt.",
+      "images": ["../img/nobull.png"],
+      "sizes": ["S", "M", "L"],
+      "tags": ["Men", "Tshirt"]
+    },
+    {
+      "name": "Women T-shirt",
+      "actualPrice": 35.99,
+      "sellPrice": 28.99,
+      "discount": 20,
+      "shortDes": "A comfortable women t-shirt",
+      "des": "Detailed description of the women t-shirt.",
+      "images": ["../img/women-tshirt.png"],
+      "sizes": ["S", "M", "L"],
+      "tags": ["Women", "Tshirt"]
+    },
+    {
+      "name": "Sports Shoes",
+      "actualPrice": 60.50,
+      "sellPrice": 50.99,
+      "discount": 15,
+      "shortDes": "High-quality sports shoes",
+      "des": "Detailed description of the sports shoes.",
+      "images": ["../img/sport-shoes.png"],
+      "sizes": ["42", "43", "44"],
+      "tags": ["Men", "Shoes"]
+    },
+    {
+      "name": "Women Sneakers",
+      "actualPrice": 55.30,
+      "sellPrice": 45.99,
+      "discount": 18,
+      "shortDes": "Stylish women sneakers",
+      "des": "Detailed description of the women sneakers.",
+      "images": ["../img/women-sneakers.png"],
+      "sizes": ["38", "39", "40"],
+      "tags": ["Women", "Shoes"]
+    },
+    {
+      "name": "Men Jacket",
+      "actualPrice": 80.00,
+      "sellPrice": 65.99,
+      "discount": 25,
+      "shortDes": "A trendy men jacket",
+      "des": "Detailed description of the men jacket.",
+      "images": ["../img/men-jacket.png"],
+      "sizes": ["M", "L", "XL"],
+      "tags": ["Men", "Jacket"]
+    },
+    {
+      "name": "Women Jacket",
+      "actualPrice": 85.50,
+      "sellPrice": 70.99,
+      "discount": 20,
+      "shortDes": "A trendy women jacket",
+      "des": "Detailed description of the women jacket.",
+      "images": ["../img/women-jacket.png"],
+      "sizes": ["S", "M", "L"],
+      "tags": ["Women", "Jacket"]
+    },
+    {
+      "name": "Men Hat",
+      "actualPrice": 20.99,
+      "sellPrice": 15.99,
+      "discount": 10,
+      "shortDes": "A stylish men hat",
+      "des": "Detailed description of the men hat.",
+      "images": ["../img/men-hat.png"],
+      "sizes": ["M", "L"],
+      "tags": ["Men", "Hat"]
+    },
+    {
+      "name": "Women Hat",
+      "actualPrice": 22.50,
+      "sellPrice": 18.99,
+      "discount": 15,
+      "shortDes": "A stylish women hat",
+      "des": "Detailed description of the women hat.",
+      "images": ["../img/women-hat.png"],
+      "sizes": ["S", "M"],
+      "tags": ["Women", "Hat"]
+    },
+    {
+      "name": "Men Watch",
+      "actualPrice": 100.99,
+      "sellPrice": 85.99,
+      "discount": 15,
+      "shortDes": "A premium men watch",
+      "des": "Detailed description of the men watch.",
+      "images": ["../img/men-watch.png"],
+      "sizes": ["One Size"],
+      "tags": ["Men", "Watch"]
+    },
+    {
+      "name": "Women Watch",
+      "actualPrice": 105.99,
+      "sellPrice": 90.99,
+      "discount": 20,
+      "shortDes": "A premium women watch",
+      "des": "Detailed description of the women watch.",
+      "images": ["../img/women-watch.png"],
+      "sizes": ["One Size"],
+      "tags": ["Women", "Watch"]
+    },
+    {
+      "name": "Men Sunglasses",
+      "actualPrice": 45.00,
+      "sellPrice": 35.99,
+      "discount": 10,
+      "shortDes": "Stylish men sunglasses",
+      "des": "Detailed description of the men sunglasses.",
+      "images": ["../img/men-sunglasses.png"],
+      "sizes": ["One Size"],
+      "tags": ["Men", "Sunglasses"]
+    },
+    {
+      "name": "Women Sunglasses",
+      "actualPrice": 50.00,
+      "sellPrice": 40.99,
+      "discount": 15,
+      "shortDes": "Stylish women sunglasses",
+      "des": "Detailed description of the women sunglasses.",
+      "images": ["../img/women-sunglasses.png"],
+      "sizes": ["One Size"],
+      "tags": ["Women", "Sunglasses"]
+    }
+  ]
