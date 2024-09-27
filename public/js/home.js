@@ -4,8 +4,8 @@ const setupSlidingEffect = () => {
     const preBtn = [...document.querySelectorAll('.pre-btn')];
 
     productContainers.forEach((item, i) => {
-        let containerDimenstions = item.getBoundingClientRect();
-        let containerWidth = containerDimenstions.width;
+        let containerDimensions = item.getBoundingClientRect();
+        let containerWidth = containerDimensions.width;
 
         nxtBtn[i].addEventListener('click', () => {
             item.scrollLeft += containerWidth;
@@ -23,18 +23,18 @@ const getProducts = (tag) => {
         method: "GET",
         headers: { "Content-Type": "application/json" }
     })
-        .then(res => {
-            if (!res.ok) {
-                return res.json().then(err => {
-                    throw new Error(`HTTP error! status: ${res.status} - ${err.message || 'Unknown error'}`);
-                });
-            }
-            return res.json();
-        })
-        .catch(error => {
-            console.error('Error fetching products:', error.message);
-            return { error: 'Failed to fetch products' };
-        });
+    .then(res => {
+        if (!res.ok) {
+            return res.json().then(err => {
+                throw new Error(`HTTP error! status: ${res.status} - ${err.message || 'Unknown error'}`);
+            });
+        }
+        return res.json();
+    })
+    .catch(error => {
+        console.error('Error fetching products:', error.message);
+        return { error: 'Failed to fetch products' };
+    });
 };
 
 const createProductSlider = (data, parent, title) => {
@@ -49,8 +49,8 @@ const createProductSlider = (data, parent, title) => {
     console.log('Fetched products:', data);
 
     const productsWithImages = data.filter(product => {
-        if (!product.images || product.images.length === 0) {
-            console.warn('Product without images:', product);
+        if (!Array.isArray(product.images) || product.images.length === 0) {
+            console.warn('Product without valid images:', product);
             return false;
         }
         return true;
@@ -84,7 +84,9 @@ const createProductSlider = (data, parent, title) => {
             </div>
     </section>
     `;
-    console.log(slideContainer.innerHTML);
+
+    // Call setupSlidingEffect after creating the HTML structure
+    setupSlidingEffect();
 };
 
 // Fetch and display products from Firebase
@@ -93,57 +95,50 @@ fetch('/test-firebase')
     .then(products => {
         console.log("Products fetched from Firebase:", products);
 
-        // Filter products with tags including 'Men' and 'Tshirt'
+        // Log each product to check its structure
+        products.forEach(product => {
+            if (typeof product.tags === 'string') {
+                product.tags = product.tags.split(',').map(tag => tag.trim());
+            } else if (!Array.isArray(product.tags)) {
+                product.tags = [];  // O puedes establecerlo a un valor por defecto si no es un array.
+            }
+        });
+
+        // Filtro de productos según etiquetas
         const menTshirtProducts = products.filter(product =>
-            product.tags && 
-            product.tags.some(tag => tag.toLowerCase().includes('men')) &&
-            product.tags.some(tag => tag.toLowerCase().includes('tshirt'))
+            Array.isArray(product.tags) && product.tags.length > 0 && product.tags.some(tag => tag.toLowerCase().includes('men'))
         );
 
-        // Filter products with tag 'shoes'
         const shoesProducts = products.filter(product =>
             product.tags && 
             product.tags.some(tag => tag.toLowerCase().includes('shoes'))
         );
 
-        // Filter products with tag 'bestseller'
         const bestsellerProducts = products.filter(product =>
             product.tags && 
             product.tags.some(tag => tag.toLowerCase().includes('bestseller'))
         );
 
-        // Filter products with tag 'accessories'
         const accessoriesProducts = products.filter(product =>
             product.tags && 
             product.tags.some(tag => tag.toLowerCase().includes('accessories'))
         );
 
-        // Display products for 'Men Tshirt' category
+        // Crear sliders para cada categoría
         if (menTshirtProducts.length > 0) {
             createProductSlider(menTshirtProducts, '#men-tshirt-products', 'Men');
-        } else {
-            console.warn('No products found for Men Tshirt category');
         }
 
-        // Display products for 'Shoes' category
         if (shoesProducts.length > 0) {
             createProductSlider(shoesProducts, '#shoes-products', 'Shoes');
-        } else {
-            console.warn('No products found for Shoes category');
         }
 
-        // Display products for 'Bestseller' category
         if (bestsellerProducts.length > 0) {
             createProductSlider(bestsellerProducts, '#bestseller-products', 'Bestseller');
-        } else {
-            console.warn('No products found for Bestseller category');
         }
 
-        // Display products for 'Accessories' category
         if (accessoriesProducts.length > 0) {
             createProductSlider(accessoriesProducts, '#accessories-products', 'Accessories');
-        } else {
-            console.warn('No products found for Accessories category');
         }
     })
     .catch(error => console.error('Error fetching products:', error));
@@ -155,6 +150,7 @@ const createProductCards = (products) => {
 
     // Generate product cards
     products.forEach(product => {
+        console.log(product.tags);
         const productCard = document.createElement('div');
         productCard.className = 'product-card';
 
@@ -174,6 +170,7 @@ const createProductCards = (products) => {
 
         // Append the card to the container
         productCardsContainer.appendChild(productCard);
+        console.log(Array.isArray(product.tags));
     });
 
     return productCardsContainer;

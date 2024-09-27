@@ -138,9 +138,9 @@ const setData = (data) => {
     des.innerHTML = data.des || 'Description unavailable';
 
     // Set up prices
-    const actualPrice = parseFloat(req.body.actualPrice);
-    const discount = parseFloat(req.body.discount);
-    const sellPrice = parseFloat(req.body.sellPrice);
+    const actualPrice = parseFloat(data.actualPrice);
+    const discount = parseFloat(data.discount);
+    const sellPrice = parseFloat(data.sellPrice);
     console.log('Actual Price:', actualPrice);
     console.log('Discount:', discount);
     console.log('Sell Price:', sellPrice);
@@ -158,24 +158,41 @@ const setData = (data) => {
 
 // Function to fetch product data from the backend
 const fetchProductData = () => {
-    fetch(`/get-products?id=${productId}`, { // Use GET if it's a read-only request
+    // Verificar que el productId es válido
+    if (!productId) {
+        console.error('Product ID is missing or invalid.');
+        location.replace('../pages/404.html'); // Redirigir si el ID es inválido
+        return;
+    }
+
+    fetch(`/api/get-products?id=${productId}`, { // Usa el endpoint correcto
         method: 'GET',
         headers: new Headers({ 'Content-Type': 'application/json' })
     })
-    .then(res => res.json())
+    .then(res => {
+        if (!res.ok) {
+            throw new Error('Product not found'); // Manejo del error si no está ok
+        }
+        return res.json();
+    })
     .then(data => {
         console.log('Product data:', data);
-        setData(data);
-        // Get similar products based on tags
-        getProducts(data.tags[1])
-            .then(products => createProductSlider(products, '.container-for-card-slider', 'Similar Products'))
-            .catch(err => {
-                console.error('Error fetching similar products:', err);
-            });
+        setData(data); // Configurar los datos del producto en la página
+
+        // Verificar que data.tags tenga al menos un elemento
+        if (data.tags && data.tags.length > 0) {
+            getProducts(data.tags[0]) // Asegúrate de que los índices sean correctos
+                .then(products => createProductSlider(products, '.container-for-card-slider', 'Similar Products'))
+                .catch(err => {
+                    console.error('Error fetching similar products:', err);
+                });
+        } else {
+            console.warn('No tags available for similar products.');
+        }
     })
     .catch(err => {
         console.error('Fetch error:', err);
-        location.replace('../pages/404.html'); // Redirect if an error occurs
+        location.replace('../pages/404.html'); // Redirigir si ocurre un error
     });
 };
 

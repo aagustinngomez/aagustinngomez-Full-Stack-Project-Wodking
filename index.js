@@ -36,16 +36,37 @@ app.use('/api/products', productsRouter);
 app.use('/api/users', userRoutes);
 
 // Define route to get products
-app.get('/api/products/get-products', (req, res) => {
-    const productId = req.query.id; 
+app.get('/api/get-products', async (req, res) => {
+    const { id } = req.query;
 
-    // Find product in the array
-    const product = productos.find(p => p.id === productId);
+    try {
+        if (id) {
+            // Busca el producto por ID en Firestore
+            const productDoc = await db.collection('products').doc(id).get();
 
-    if (product) {
-        res.json(product); // Send product as JSON response
-    } else {
-        res.status(404).json({ message: 'Product not found' }); // Send 404 error if product doesn't exist
+            // Verifica si el producto existe
+            if (!productDoc.exists) {
+                return res.status(404).json({ error: 'Product not found' });
+            }
+
+            // Si existe, envía el producto
+            const product = productDoc.data();
+            product.id = productDoc.id; // Asegura que el ID del documento esté en el objeto
+            return res.json(product);
+        } else {
+            // Si no se proporciona ID, retorna todos los productos
+            const snapshot = await db.collection('products').get();
+            const products = snapshot.docs.map(doc => {
+                const product = doc.data();
+                product.id = doc.id; // Incluye el ID de cada documento
+                return product;
+            });
+
+            return res.json(products);
+        }
+    } catch (error) {
+        console.error("Error retrieving product(s) from Firestore:", error);
+        res.status(500).json({ error: "Failed to retrieve product(s)" });
     }
 });
 
@@ -287,7 +308,7 @@ app.post('/add-product', (req, res) => {
 });
 
 // Start server
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });

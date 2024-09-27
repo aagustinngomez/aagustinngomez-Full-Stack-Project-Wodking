@@ -182,20 +182,20 @@ const setFormsData = (data) => {
     });
 };
 
-const fetchProductData = () => {
-    fetch('/get-products', {
-        method: 'post',
-        headers: new Headers({'Content-Type': 'application/json'}),
-        body: JSON.stringify({email: user.email, id: productId})
+const fetchProductForEdit = () => {
+    fetch(`/get-products?id=${productId}`, {
+        method: 'GET',
+        headers: new Headers({ 'Content-Type': 'application/json' })
     })
     .then((res) => res.json())
     .then(data => {
-        setFormsData(data);
+        setFormsData(data); // Asumiendo que esta función carga los datos en los campos del formulario
     })
     .catch(err => {
-        console.log(err);
+        console.error('Error fetching product data for edit:', err);
     });
 };
+
 
 let productId = null;
 if (location.pathname !== '../add-product.html') {
