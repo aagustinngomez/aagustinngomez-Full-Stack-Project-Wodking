@@ -37,7 +37,7 @@ app.use('/api/users', userRoutes);
 
 // Define route to get products
 app.get('/api/get-products', async (req, res) => {
-    const { id } = req.query;
+    const { id, search } = req.query; // Obtener id y search de la query
 
     try {
         if (id) {
@@ -53,8 +53,28 @@ app.get('/api/get-products', async (req, res) => {
             const product = productDoc.data();
             product.id = productDoc.id; // Asegura que el ID del documento esté en el objeto
             return res.json(product);
+        } else if (search) {
+            // Si hay un término de búsqueda, buscar productos cuyo nombre coincida
+            const snapshot = await db.collection('products')
+                .where('name', '>=', search)  // Búsqueda que empieza con 'search'
+                .where('name', '<=', search + '\uf8ff')  // Límite de búsqueda
+                .get();
+
+            // Si no se encontraron productos
+            if (snapshot.empty) {
+                return res.status(404).json({ error: 'No products found matching the search term' });
+            }
+
+            // Si hay productos coincidentes, envíalos
+            const products = snapshot.docs.map(doc => {
+                const product = doc.data();
+                product.id = doc.id; // Asegura que el ID del documento esté en el objeto
+                return product;
+            });
+
+            return res.json(products);
         } else {
-            // Si no se proporciona ID, retorna todos los productos
+            // Si no se proporciona ID ni término de búsqueda, retorna todos los productos
             const snapshot = await db.collection('products').get();
             const products = snapshot.docs.map(doc => {
                 const product = doc.data();
@@ -185,6 +205,29 @@ app.post('/signup', (req, res) => {
             }
         });
 });
+
+app.get('/api/search', async (req, res) => {
+    const searchKey = req.query.q;
+
+    try {
+        const snapshot = await db.collection('products')
+            .where('name', '>=', searchKey)
+            .where('name', '<=', searchKey + '\uf8ff') // Consulta para buscar productos
+            .get();
+
+        const products = snapshot.docs.map(doc => {
+            const product = doc.data();
+            product.id = doc.id;
+            return product;
+        });
+
+        res.json(products);
+    } catch (error) {
+        console.error("Error fetching products:", error);
+        res.status(500).json({ error: "Error fetching products" });
+    }
+});
+
 
 app.get('/login', (req, res) => {
     res.sendFile(path.join(staticPath, "pages/login.html"));

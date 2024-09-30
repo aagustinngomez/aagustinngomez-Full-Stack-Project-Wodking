@@ -66,7 +66,35 @@ window.onload = () => {
 const searchBtn = document.querySelector('.search-btn');
 const searchBox = document.querySelector('.search-box');
 searchBtn.addEventListener('click', () => {
-    if(searchBox.value.length){
-        location.href = `../pages/search/${searchBox.value}`
+    if (searchBox.value.length) {
+        const searchValue = encodeURIComponent(searchBox.value);
+        location.href = `../pages/search.html?q=${searchValue}`;
     }
-})
+});
+
+// Captura el parámetro de búsqueda desde la URL
+const params = new URLSearchParams(window.location.search);
+const searchKey = params.get('q');
+
+// Verifica si hay un término de búsqueda
+if (searchKey) {
+    // Actualiza el contenido del DOM para reflejar el término de búsqueda
+    document.querySelector('#search-key').textContent = `Search results for "${searchKey}"`;
+
+    // Llama a la función para obtener productos relacionados con la búsqueda
+    getProducts(searchKey).then(data => {
+        createProductCards(data, '.card-container'); // Renderiza los productos
+    }).catch(error => {
+        console.error('Error fetching products:', error);
+    });
+} else {
+    document.querySelector('#search-key').textContent = "No search key provided";
+}
+
+// Función para obtener los productos desde el backend según el término de búsqueda
+function getProducts(searchKey) {
+    return fetch(`/api/search?q=${encodeURIComponent(searchKey)}`)
+        .then(response => response.json())
+        .then(data => data)
+        .catch(error => console.error('Error fetching products:', error));
+}

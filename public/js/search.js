@@ -1,6 +1,8 @@
-const searchKey = decodeURI(location.pathname.split('/').pop());
+const searchBtn = document.querySelector('.search-btn');
+const searchBox = document.querySelector('.search-box');
 
-const searchSpanElement = document.querySelector('#search-key');
-searchSpanElement.innerHTML = searchKey;
-
-getProducts(searchKey).then(data => createProductCards(data, '.card-container'));
+searchBtn.addEventListener('click', () => {
+    if (searchBox.value.length) {
+        location.href = `/pages/search.html?q=${encodeURIComponent(searchBox.value)}`;
+    }
+});

@@ -18,7 +18,7 @@ const setupSlidingEffect = () => {
 };
 
 // Fetch products from the API
-const getProducts = (tag) => {
+const fetchProductsFromAPI = (tag) => {
     return fetch(`/api/get-products?tag=${encodeURIComponent(tag)}`, {
         method: "GET",
         headers: { "Content-Type": "application/json" }
@@ -36,7 +36,6 @@ const getProducts = (tag) => {
         return { error: 'Failed to fetch products' };
     });
 };
-
 const createProductSlider = (data, parent, title) => {
     let slideContainer = document.querySelector(`${parent}`);
 
