@@ -66,9 +66,8 @@ const addProductToCart = (productId) => {
 const urlParams = new URLSearchParams(window.location.search);
 const productId = urlParams.get('id'); // Ensure 'id' is present in the URL
 
-// Wait for the page content to be fully loaded
+
 document.addEventListener('DOMContentLoaded', () => {
-    // Add a click event to the "Add to Cart" button
     const addToCartButton = document.getElementById('add-to-cart');
     
     if (addToCartButton) {
@@ -96,6 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchProductData();
 });
 
+
 // Function to set product data on the page
 const setData = (data) => {
     let title = document.querySelector('title');
@@ -104,14 +104,14 @@ const setData = (data) => {
     if (data.images && data.images.length > 0) {
         productImages.forEach((img, i) => {
             if (data.images[i]) {
-                img.src = data.images[i];
-                img.style.display = 'block'; // Ensure it's displayed
+                img.src = data.images[i];  
+                img.style.display = 'block'; 
             } else {
-                img.style.display = 'none'; // Hide if no image
+                img.style.display = 'none'; 
             }
         });
         if (data.images.length > 0) {
-            productImages[0].click(); // Activate the first image
+            productImages[0].click(); 
         }
     }
 
@@ -149,11 +149,6 @@ const setData = (data) => {
     actualPrice.innerHTML = `$${data.actualPrice || 0}`;
     discount.innerHTML = data.discount ? `( ${data.discount}% off )` : '';
 
-    // Set up the add to cart button
-    const cartBtn = document.querySelector('.cart-btn');
-    cartBtn.addEventListener('click', () => {
-        addProductToCart(productId); // Call addToCart function on button click
-    });
 };
 
 // Function to fetch product data from the backend
@@ -210,16 +205,3 @@ fetch('/api/products')
   })
   .catch(error => console.error("Error fetching products:", error));
 
-document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('add-to-cart').addEventListener('click', () => {
-        const tacChecked = document.getElementById('tac-checkbox').checked;
-
-        if (!tacChecked) {
-            alert('You must agree to the terms and conditions');
-            return; // Prevent further execution if unchecked
-        }
-
-        // Process the addition to the cart
-        addProductToCart(productId);
-    });
-}); 

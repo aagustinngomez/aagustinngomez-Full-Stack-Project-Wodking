@@ -16,7 +16,7 @@ export const getProducts = async (req, res) => {
             {
                 "id": "6PDPqEltbWhHsHxoozMU",
                 "actualPrice": 28.11,
-                "images": ["../img/mujer.png"],
+                "images": ["../img/mujer.jpg"],
                 "name": "REEBOK",
                 "sellPrice": 24.12,
                 "shortDes": "A comfortable woman tshirt",
@@ -67,6 +67,9 @@ export const getProducts = async (req, res) => {
                 "actualPrice": 18.55,
                 "discount": 18,
                 "images": ["../img/product.jpg"],
+                "images": ["../img/product.jpg"],
+                "images": ["../img/product.jpg"],
+                "images": ["../img/product.jpg"],
                 "name": "WODKING",
                 "sellPrice": 45.54,
                 "shortDes": "A comfortable men tshirt",
@@ -76,7 +79,7 @@ export const getProducts = async (req, res) => {
             {
                 "id": "ICReBQ4pGTcQGMjXkvSX",
                 "actualPrice": 25.12,
-                "images": ["../img/mujer.png"],
+                "images": ["../img/mujer.jpg"],
                 "name": "T shirt",
                 "sellPrice": 21.11,
                 "shortDes": "A comfortable woman tshirt",
@@ -97,7 +100,7 @@ export const getProducts = async (req, res) => {
             {
                 "id": "LyrDzxb53ngV92dku58W",
                 "actualPrice": 31.36,
-                "images": ["../img/mujer.png"],
+                "images": ["../img/mujer.jpg"],
                 "name": "NIKE",
                 "sellPrice": 29.12,
                 "shortDes": "A comfortable woman tshirt",
@@ -214,7 +217,7 @@ export const getProducts = async (req, res) => {
             {
                 "id": "rz8VnPIU9eUwwH3Gelab",
                 "actualPrice": 35.22,
-                "images": ["../img/mujer.png"],
+                "images": ["../img/mujer.jpg"],
                 "name": "WOMAN REEBOK",
                 "sellPrice": 24.55,
                 "shortDes": "A comfortable woman tshirt",

@@ -14,10 +14,10 @@
 }
 
 .product-main-image {
-    width: 500px; /* Ancho de la imagen principal */
-    height: 500px; /* Alto de la imagen principal */
-    object-fit: cover; /* Para asegurar que la imagen mantenga su proporción */
-    margin-bottom: 20px; /* Espacio entre la imagen principal y las miniaturas */
+    width: 500px; 
+    height: 500px; 
+    object-fit: cover;
+    margin-bottom: 20px; 
 }
 
 .product-images{
@@ -120,10 +120,10 @@
     margin: 20px 0;
 }
 
-.cart-btn{
-    margin-right: 2%;
-    background: #383838;
-    color: #fff;
+.btn-group .cart-btn {
+    margin-right: 2% !important;
+    background: #383838 !important;
+    color: #fff !important;
 }
 
 .detail-des{

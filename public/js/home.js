@@ -123,6 +123,11 @@ fetch('/test-firebase')
             product.tags.some(tag => tag.toLowerCase().includes('accessories'))
         );
 
+        const womenProducts = products.filter(product => 
+            product.tags &&
+            product.tags.some(tag => tag.toLowerCase().includes('women'))
+        );
+
         // Crear sliders para cada categoría
         if (menTshirtProducts.length > 0) {
             createProductSlider(menTshirtProducts, '#men-tshirt-products', 'Men');
@@ -139,7 +144,11 @@ fetch('/test-firebase')
         if (accessoriesProducts.length > 0) {
             createProductSlider(accessoriesProducts, '#accessories-products', 'Accessories');
         }
-    })
+
+        if (womenProducts.length > 0) {
+            createProductSlider(womenProducts, '#women-products', 'Women');
+        }
+    }) 
     .catch(error => console.error('Error fetching products:', error));
 
 // Create product cards

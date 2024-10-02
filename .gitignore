@@ -2,5 +2,4 @@
 firebaseConfig.js
 node_modules/
 serviceAccountKey.json
-public/config/
-
+public/config
