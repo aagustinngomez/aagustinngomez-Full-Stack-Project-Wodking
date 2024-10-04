@@ -36,6 +36,8 @@ const fetchProductsFromAPI = (tag) => {
         return { error: 'Failed to fetch products' };
     });
 };
+
+
 const createProductSlider = (data, parent, title) => {
     let slideContainer = document.querySelector(`${parent}`);
 
@@ -60,7 +62,7 @@ const createProductSlider = (data, parent, title) => {
         return;
     }
 
-    slideContainer.innerHTML += `
+    slideContainer.innerHTML = `
     <section class="product">
         <h2 class="product-category">${title}</h2>
         <button class="pre-btn"><img src="../img/arrow.png" alt="Prev"></button>

@@ -153,30 +153,37 @@ const setData = (data) => {
 
 // Function to fetch product data from the backend
 const fetchProductData = () => {
-    // Verificar que el productId es válido
+    // Verify that the productId is valid
     if (!productId) {
         console.error('Product ID is missing or invalid.');
-        location.replace('../pages/404.html'); // Redirigir si el ID es inválido
+        location.replace('../pages/404.html'); // Redirect if the ID is invalid
         return;
     }
 
-    fetch(`/api/get-products?id=${productId}`, { // Usa el endpoint correcto
+    fetch(`/api/get-products?id=${productId}`, {
         method: 'GET',
         headers: new Headers({ 'Content-Type': 'application/json' })
     })
     .then(res => {
         if (!res.ok) {
-            throw new Error('Product not found'); // Manejo del error si no está ok
+            throw new Error('Product not found'); // Handle the error if not ok
         }
         return res.json();
     })
     .then(data => {
         console.log('Product data:', data);
-        setData(data); // Configurar los datos del producto en la página
+        setData(data); // Set the product data on the page
 
-        // Verificar que data.tags tenga al menos un elemento
+        // Verify that data.tags has at least one element
         if (data.tags && data.tags.length > 0) {
-            getProducts(data.tags[0]) // Asegúrate de que los índices sean correctos
+            // Ensure you are passing the object correctly to getProducts
+            fetch(`/api/get-products?tag=${data.tags[0]}`) // Call the API with the tag
+                .then(res => {
+                    if (!res.ok) {
+                        throw new Error('Error fetching similar products');
+                    }
+                    return res.json();
+                })
                 .then(products => createProductSlider(products, '.container-for-card-slider', 'Similar Products'))
                 .catch(err => {
                     console.error('Error fetching similar products:', err);
@@ -187,12 +194,12 @@ const fetchProductData = () => {
     })
     .catch(err => {
         console.error('Fetch error:', err);
-        location.replace('../pages/404.html'); // Redirigir si ocurre un error
+        location.replace('../pages/404.html'); // Redirect if an error occurs
     });
 };
 
 // Fetch all products from the API
-fetch('/api/products')
+fetch('/api/get-products')
   .then(response => {
       if (!response.ok) {
           throw new Error('Network error');

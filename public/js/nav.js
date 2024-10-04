@@ -3,26 +3,25 @@ const createNav = () => {
 
     nav.innerHTML = `
         <div class="nav">
-            
-            <img src="../img/wodking.png" class="brand-logo" alt="">
+            <img src="../img/wodking.png" class="brand-logo" alt="Brand logo">
             <div class="nav-items">
                 <div class="search">
-                    <input type="text" class="search-box" placeholder="search brand, product">
-                    <button class="search-btn">search</button>
+                    <input type="text" class="search-box" placeholder="Search brand, product">
+                    <button class="search-btn">Search</button>
                 </div>
                 <a>
-                    <img src="../img/user.png" id="user-img" alt="">
+                    <img src="../img/user.png" id="user-img" alt="User icon">
                     <div class="login-logout-popup hide">
                         <p class="account-info">Log in as, name</p>
                         <button class="btn" id="user-btn">Log out</button>
                     </div>
                 </a>
-                <a href="../pages/cart.html"><img src="../img/cart.png" alt=""></a>
+                <a href="../pages/cart.html"><img src="../img/cart.png" alt="Cart icon"></a>
             </div>
         </div>
         <ul class="links-container">
-            <li class="link-item"><a href="../pages/index.html" class="link">home</a></li>
-            <li class="link-item"><a href="../pages/shop.html" class="link">shop</a></li>
+            <li class="link-item"><a href="../pages/index.html" class="link">Home</a></li>
+            <li class="link-item"><a href="../pages/shop.html" class="link">Shop</a></li>
             <li class="link-item"><a href="../pages/collections.html" class="link">Collections</a></li>
             <li class="link-item"><a href="../pages/contact.html" class="link">Contact</a></li>
         </ul>
@@ -34,35 +33,34 @@ createNav();
 // nav popup
 const userImageButton = document.querySelector('#user-img');
 const userPopup = document.querySelector('.login-logout-popup');
-const popuptext = document.querySelector('.account-info');
+const popupText = document.querySelector('.account-info');
 const actionBtn = document.querySelector('#user-btn');
 
 userImageButton.addEventListener('click', () => {
     userPopup.classList.toggle('hide');
-})
+});
 
 window.onload = () => {
     let user = JSON.parse(sessionStorage.user || null);
-    if(user != null){
-        // means user is logged in
-        popuptext.innerHTML = `log in as, ${user.name}`;
-        actionBtn.innerHTML = 'log out';
+    if (user != null) {
+        // User is logged in
+        popupText.innerHTML = `Log in as, ${user.name}`;
+        actionBtn.innerHTML = 'Log out';
         actionBtn.addEventListener('click', () => {
             sessionStorage.clear();
             location.reload();
-        })
-    } else{
-        // user is logged out
-        popuptext.innerHTML = 'log in to place order';
-        actionBtn.innerHTML = 'log in';
+        });
+    } else {
+        // User is logged out
+        popupText.innerHTML = 'Log in to place an order';
+        actionBtn.innerHTML = 'Log in';
         actionBtn.addEventListener('click', () => {
             location.href = '../pages/login.html';
-        })
+        });
     }
-}
+};
 
-// search box
-
+// Search box
 const searchBtn = document.querySelector('.search-btn');
 const searchBox = document.querySelector('.search-box');
 searchBtn.addEventListener('click', () => {
@@ -72,18 +70,18 @@ searchBtn.addEventListener('click', () => {
     }
 });
 
-// Captura el parámetro de búsqueda desde la URL
+// Capture the search parameter from the URL
 const params = new URLSearchParams(window.location.search);
 const searchKey = params.get('q');
 
-// Verifica si hay un término de búsqueda
+// Check if there is a search term
 if (searchKey) {
-    // Actualiza el contenido del DOM para reflejar el término de búsqueda
+    // Update the DOM content to reflect the search term
     document.querySelector('#search-key').textContent = `Search results for "${searchKey}"`;
 
-    // Llama a la función para obtener productos relacionados con la búsqueda
+    // Call the function to fetch related products
     getProducts(searchKey).then(data => {
-        createProductCards(data, '.card-container'); // Renderiza los productos
+        createProductCards(data, '.card-container'); // Render the products
     }).catch(error => {
         console.error('Error fetching products:', error);
     });
@@ -91,7 +89,7 @@ if (searchKey) {
     document.querySelector('#search-key').textContent = "No search key provided";
 }
 
-// Función para obtener los productos desde el backend según el término de búsqueda
+// Function to fetch products from the backend based on the search term
 function getProducts(searchKey) {
     return fetch(`/api/search?q=${encodeURIComponent(searchKey)}`)
         .then(response => response.json())

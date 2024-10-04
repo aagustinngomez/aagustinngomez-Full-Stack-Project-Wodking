@@ -1,25 +1,37 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Elementos de la página
+    // Page elements
     const productGrid = document.querySelector(".product-grid");
     const filterButtons = document.querySelectorAll(".filter-btn");
 
-    // Función para obtener productos desde Firebase o el backend
+    // Function to fetch products from Firebase or backend
     const fetchProducts = () => {
-        return fetch('/test-firebase') // Cambia el endpoint si usas otro backend
-            .then(response => response.json())
+        return fetch('/test-firebase')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
             .then(data => {
+                if (!Array.isArray(data) || data.length === 0) {
+                    throw new Error('No products found or data is not in the expected format.');
+                }
                 console.log('Fetched products:', data);
                 return data;
             })
-            .catch(error => console.error('Error fetching products:', error));
+            .catch(error => {
+                console.error('Error fetching products:', error);
+                return []; // Return an empty array on error
+            });
     };
 
-    // Función para renderizar los productos en un formato de cuadrícula
+    // Function to render products in a grid format
     const renderProducts = (products) => {
+        console.log('Number of products rendered:', products.length);
         const productGrid = document.querySelector('.product-grid');
-        productGrid.innerHTML = ''; 
-    
-        // Generar HTML para cada producto
+        productGrid.innerHTML = '';
+
+        // Generate HTML for each product
         products.forEach(product => {
             const productHTML = `
                 <a href="../pages/product.html?id=${product.id}" class="product-card">
@@ -35,23 +47,23 @@ document.addEventListener("DOMContentLoaded", () => {
                     </div>
                 </a>
             `;
-    
-            // Insertar cada producto en el grid
+
+            // Insert each product into the grid
             productGrid.innerHTML += productHTML;
         });
     };
 
-    // Filtrar productos por categoría
+    // Filter products by category
     const filterProductsByCategory = (products, category) => {
         if (category === "all") return products;
         return products.filter(product => product.tags.includes(category));
     };
 
-    // Manejar eventos de filtrado por categoría
+    // Handle filtering by category events
     filterButtons.forEach(button => {
         button.addEventListener("click", () => {
             const category = button.getAttribute("data-category");
-            
+
             fetchProducts().then(products => {
                 const filteredProducts = filterProductsByCategory(products, category);
                 renderProducts(filteredProducts);
@@ -59,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // Mostrar todos los productos al cargar la página
+    // Show all products when the page loads
     fetchProducts().then(products => {
         renderProducts(products);
     });

@@ -189,7 +189,7 @@ const fetchProductForEdit = () => {
     })
     .then((res) => res.json())
     .then(data => {
-        setFormsData(data); // Asumiendo que esta función carga los datos en los campos del formulario
+        setFormsData(data); 
     })
     .catch(err => {
         console.error('Error fetching product data for edit:', err);

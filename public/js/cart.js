@@ -1,58 +1,77 @@
 const createSmallCards = (data) => {
+    // Verify the data is valid before continuing
+    const imageUrl = data.image || '../public/img/default.png'; // Default image path if no image is available
+    const sellPrice = data.sellPrice || 0;
+    const itemCount = data.item || 1;
+
     return `
     <div class="sm-product">
-        <img src="${data.image}" class="sm-product-img" alt="">
+        <img src="${imageUrl}" class="sm-product-img" alt="${data.name}">
         <div class="sm-text">
             <p class="sm-product-name">${data.name}</p>
             <p class="sm-des">${data.shortDes}</p>
         </div>
         <div class="item-counter">
             <button class="counter-btn decrement">-</button>
-            <p class="item-count">${data.item}</p>
+            <p class="item-count">${itemCount}</p> <!-- Quantity counter -->
             <button class="counter-btn increment">+</button>
         </div>
-        <p class="sm-price" data-price="${data.sellPrice}">$${data.sellPrice * data.item}</p>
-        <button class="sm-delete-btn"><img src="../img/close.png" alt=""></button>
+        <p class="sm-price" data-price="${sellPrice}">$${(sellPrice * itemCount).toFixed(2)}</p>
+        <button class="sm-delete-btn"><img src="../public/img/close.png" alt="Delete"></button>
     </div>
     `;
-}
+};
 
 const addToCart = (productId) => {
-    console.log('ID del producto:', productId);
+    console.log('Product ID:', productId);
+    
+    // Get the cart from localStorage
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
+    // Make a request to get product data by its ID
     fetch(`/api/get-products?id=${productId}`, {
         method: 'GET',
         headers: new Headers({ 'Content-Type': 'application/json' })
     })
     .then(res => {
         if (!res.ok) {
-            throw new Error('Error al obtener el producto');
+            throw new Error('Error fetching product from the API');
         }
         return res.json();
     })
     .then(product => {
+        console.log('Fetched product:', product);  // Check if the product has the correct structure
+
+        // Find if the product is already in the cart
         const productIndex = cart.findIndex(item => item.id === product.id);
 
         if (productIndex > -1) {
+            // If the product is already in the cart, increase the quantity
             cart[productIndex].item += 1;
         } else {
-            product.item = 1;
+            // If the product is not in the cart, add it with quantity 1
+            product.item = 1;  // Ensure the initial quantity is 1
             cart.push(product);
         }
 
+        // Save the updated cart in localStorage
         localStorage.setItem('cart', JSON.stringify(cart));
+        console.log('Product added to cart:', cart);
+
+        // Update the products in the UI
         setProducts('cart'); 
-        alert(`${product.name} ha sido agregado al carrito.`);
+
+        // Show a message to the user
+        alert(`${product.name} has been added to the cart.`);
     })
-    .catch(err => console.error('Fetch error:', err));
+    .catch(err => console.error('Error adding product to the cart:', err));
 };
 
 const setProducts = (name) => {
     const element = document.querySelector(`.${name}`);
 
     if (!element) {
-        console.error(`Elemento con la clase "${name}" no encontrado.`);
+        console.error(`Element with class "${name}" not found.`);
         return;
     }
 
@@ -61,23 +80,39 @@ const setProducts = (name) => {
     element.innerHTML = '';
 
     if (!data || data.length === 0) {
-        element.innerHTML = `<img src="../img/empty-cart.png" class="empty-img" alt="Carrito vacío">`;
+        element.innerHTML = `<img src="../img/empty-cart.png" class="empty-img" alt="Empty cart">`;
     } else {
-        let totalBill = 0;
-
-        data.forEach(product => {
-            element.innerHTML += createSmallCards(product);
-            totalBill += Number(product.sellPrice * product.item);
+        data.forEach((product, index) => {
+            element.innerHTML += createSmallCards(product, index);
         });
-
-        updateBill(totalBill);
     }
 
-    setupEvents(name);
+    // Update the total bill
+    updateBill();
+
+    // Set up events for increment and decrement buttons
+    setupEvents();
 };
 
-const updateBill = (totalBill) => {
-    document.querySelector('.total-bill').textContent = `Total: $${totalBill.toFixed(2)}`;
+const updateBill = () => {
+    const products = JSON.parse(localStorage.getItem('cart')) || [];
+
+    // Log products from localStorage to the console
+    console.log('Products in the cart:', products);
+
+    // Ensure valid values for sellPrice and item
+    let totalBill = products.reduce((sum, product) => {
+        const price = parseFloat(product.sellPrice) || 0;  // Ensure sellPrice is a valid number
+        const quantity = parseInt(product.item, 10) || 0;   // Ensure item is a valid number
+
+        // Log the values being summed to the console
+        console.log(`Product: ${product.name}, Price: ${price}, Quantity: ${quantity}`);
+
+        return sum + (price * quantity);
+    }, 0);
+
+    // Update the total in the DOM
+    document.querySelector('.bill').textContent = `$${totalBill.toFixed(2)}`;
 };
 
 const setupEvents = (name) => {
@@ -87,38 +122,48 @@ const setupEvents = (name) => {
     const price = document.querySelectorAll(`.${name} .sm-price`);
     const deleteBtn = document.querySelectorAll(`.${name} .sm-delete-btn`);
 
-    let product = JSON.parse(localStorage.getItem(name));
+    // Get products from localStorage
+    let product = JSON.parse(localStorage.getItem(name)) || [];
 
     counts.forEach((item, i) => {
-        let cost = Number(price[i].getAttribute('data-price'));
+        let cost = parseFloat(price[i].getAttribute('data-price')) || 0;
 
+        // Decrement button
         counterMinus[i].addEventListener('click', () => {
             if (item.innerHTML > 1) {
                 item.innerHTML--;
-                totalBill -= cost;
-                price[i].innerHTML = `$${item.innerHTML * cost}`;
-                if (name === 'cart') {
-                    updateBill(totalBill);
-                }
-                product[i].item = item.innerHTML;
+
+                // Update price in the DOM
+                price[i].innerHTML = `$${(item.innerHTML * cost).toFixed(2)}`;
+
+                // Update quantity in the product object
+                product[i].item = Number(item.innerHTML);
                 localStorage.setItem(name, JSON.stringify(product));
+
+                // Recalculate the total bill
+                updateBill();
             }
         });
 
+        // Increment button
         counterPlus[i].addEventListener('click', () => {
             if (item.innerHTML < 9) {
                 item.innerHTML++;
-                totalBill += cost;
-                price[i].innerHTML = `$${item.innerHTML * cost}`;
-                if (name === 'cart') {
-                    updateBill(totalBill);
-                }
-                product[i].item = item.innerHTML;
+
+                // Update price in the DOM
+                price[i].innerHTML = `$${(item.innerHTML * cost).toFixed(2)}`;
+
+                // Update quantity in the product object
+                product[i].item = Number(item.innerHTML);
                 localStorage.setItem(name, JSON.stringify(product));
+
+                // Recalculate the total bill
+                updateBill();
             }
         });
     });
 
+    // Handle delete product buttons
     deleteBtn.forEach((item, i) => {
         item.addEventListener('click', () => {
             product = product.filter((data, index) => index !== i);
@@ -127,13 +172,12 @@ const setupEvents = (name) => {
             const productElement = deleteBtn[i].closest('.sm-product');
             productElement.remove();
 
-            totalBill = product.reduce((sum, prod) => sum + (prod.sellPrice * prod.item), 0);
-            updateBill(totalBill);
+            // Recalculate the total bill
+            updateBill();
         });
     });
 };
 
 document.addEventListener('DOMContentLoaded', () => {
     setProducts('cart');
-    setProducts('wishlist');
 });

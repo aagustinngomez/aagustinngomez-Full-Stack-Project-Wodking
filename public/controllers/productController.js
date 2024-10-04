@@ -1,6 +1,7 @@
 export const getProducts = async (req, res) => {
     try {
-        const productId = req.query.id; // Get the ID from the query
+        const productId = req.query.id; 
+        const tag = req.query.tag; 
 
         // Mock data to simulate server response
         const products = [
@@ -246,7 +247,7 @@ export const getProducts = async (req, res) => {
         ];
 
          // If an ID is provided, search for the product
-        if (productId) {
+         if (productId) {
             const product = products.find(p => p.id === productId);
 
             if (!product) {
@@ -255,8 +256,12 @@ export const getProducts = async (req, res) => {
 
             return res.status(200).json(product); 
         }
+        
+        if (tag) {
+            const similarProducts = products.filter(p => p.tags.includes(tag));
+            return res.status(200).json(similarProducts);
+        }
 
-        // If no ID is provided, return all products
         res.status(200).json(products);
     } catch (error) {
         console.error('Error:', error);
