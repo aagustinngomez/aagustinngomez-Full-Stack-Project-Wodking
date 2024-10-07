@@ -1,5 +1,5 @@
 const createNav = () => {
-    let nav = document.querySelector('.navbar');
+    const nav = document.querySelector('.navbar');
 
     nav.innerHTML = `
         <div class="nav">
@@ -26,24 +26,21 @@ const createNav = () => {
             <li class="link-item"><a href="../pages/contact.html" class="link">Contact</a></li>
         </ul>
     `;
-}
+};
 
-createNav();
+// Function to handle user login/logout
+const handleUserAuth = () => {
+    const userImageButton = document.querySelector('#user-img');
+    const userPopup = document.querySelector('.login-logout-popup');
+    const popupText = document.querySelector('.account-info');
+    const actionBtn = document.querySelector('#user-btn');
 
-// nav popup
-const userImageButton = document.querySelector('#user-img');
-const userPopup = document.querySelector('.login-logout-popup');
-const popupText = document.querySelector('.account-info');
-const actionBtn = document.querySelector('#user-btn');
+    userImageButton.addEventListener('click', () => {
+        userPopup.classList.toggle('hide');
+    });
 
-userImageButton.addEventListener('click', () => {
-    userPopup.classList.toggle('hide');
-});
-
-window.onload = () => {
     let user = JSON.parse(sessionStorage.user || null);
-    if (user != null) {
-        // User is logged in
+    if (user) {
         popupText.innerHTML = `Log in as, ${user.name}`;
         actionBtn.innerHTML = 'Log out';
         actionBtn.addEventListener('click', () => {
@@ -51,7 +48,6 @@ window.onload = () => {
             location.reload();
         });
     } else {
-        // User is logged out
         popupText.innerHTML = 'Log in to place an order';
         actionBtn.innerHTML = 'Log in';
         actionBtn.addEventListener('click', () => {
@@ -60,39 +56,56 @@ window.onload = () => {
     }
 };
 
-// Search box
-const searchBtn = document.querySelector('.search-btn');
-const searchBox = document.querySelector('.search-box');
-searchBtn.addEventListener('click', () => {
-    if (searchBox.value.length) {
-        const searchValue = encodeURIComponent(searchBox.value);
-        location.href = `../pages/search.html?q=${searchValue}`;
+// Function to handle search functionality
+const handleSearch = () => {
+    const searchBtn = document.querySelector('.search-btn');
+    const searchBox = document.querySelector('.search-box');
+
+    if (!searchBtn || !searchBox) {
+        console.error('Search button or search box not found!');
+        return; // Salir si no se encuentra el botón o el cuadro de búsqueda
     }
-});
 
-// Capture the search parameter from the URL
-const params = new URLSearchParams(window.location.search);
-const searchKey = params.get('q');
-
-// Check if there is a search term
-if (searchKey) {
-    // Update the DOM content to reflect the search term
-    document.querySelector('#search-key').textContent = `Search results for "${searchKey}"`;
-
-    // Call the function to fetch related products
-    getProducts(searchKey).then(data => {
-        createProductCards(data, '.card-container'); // Render the products
-    }).catch(error => {
-        console.error('Error fetching products:', error);
+    searchBtn.addEventListener('click', () => {
+        if (searchBox.value.length) {
+            const searchValue = encodeURIComponent(searchBox.value);
+            location.href = `../pages/search.html?q=${searchValue}`;
+        }
     });
-} else {
-    document.querySelector('#search-key').textContent = "No search key provided";
-}
+
+    // Capture the search parameter from the URL
+    const params = new URLSearchParams(window.location.search);
+    const searchKey = params.get('q');
+
+    // Check if there is a search term
+    if (searchKey) {
+        document.querySelector('#search-key').textContent = `Search results for "${searchKey}"`;
+        getProducts(searchKey)
+            .then(data => {
+                createProductCards(data, '.card-container'); // Render the products
+            })
+            .catch(error => {
+                console.error('Error fetching products:', error);
+            });
+    } else {
+        document.querySelector('#search-key').textContent = "No search key provided";
+    }
+};
 
 // Function to fetch products from the backend based on the search term
 function getProducts(searchKey) {
     return fetch(`/api/search?q=${encodeURIComponent(searchKey)}`)
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
         .then(data => data)
         .catch(error => console.error('Error fetching products:', error));
 }
+
+// Initializing the search functionality when the DOM is fully loaded
+document.addEventListener('DOMContentLoaded', () => {
+    handleSearch();
+});

@@ -1,6 +1,5 @@
 const createSmallCards = (data) => {
-    // Verify the data is valid before continuing
-    const imageUrl = data.image || '../public/img/default.png'; // Default image path if no image is available
+    const imageUrl = data.images[0] || '../public/img/default.png';
     const sellPrice = data.sellPrice || 0;
     const itemCount = data.item || 1;
 
@@ -13,26 +12,23 @@ const createSmallCards = (data) => {
         </div>
         <div class="item-counter">
             <button class="counter-btn decrement">-</button>
-            <p class="item-count">${itemCount}</p> <!-- Quantity counter -->
+            <p class="item-count">${itemCount}</p>
             <button class="counter-btn increment">+</button>
         </div>
         <p class="sm-price" data-price="${sellPrice}">$${(sellPrice * itemCount).toFixed(2)}</p>
-        <button class="sm-delete-btn"><img src="../public/img/close.png" alt="Delete"></button>
+        <button class="sm-delete-btn"><img src="/img/close.png" alt="Delete"></button>
     </div>
     `;
 };
 
 const addToCart = (productId) => {
-    console.log('Product ID:', productId);
     
     // Get the cart from localStorage
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    console.log('Current cart before adding:', cart);
 
-    // Make a request to get product data by its ID
-    fetch(`/api/get-products?id=${productId}`, {
-        method: 'GET',
-        headers: new Headers({ 'Content-Type': 'application/json' })
-    })
+    // Fetch product data by ID
+    fetch(`/api/get-products?id=${productId}`)
     .then(res => {
         if (!res.ok) {
             throw new Error('Error fetching product from the API');
@@ -40,28 +36,29 @@ const addToCart = (productId) => {
         return res.json();
     })
     .then(product => {
-        console.log('Fetched product:', product);  // Check if the product has the correct structure
-
-        // Find if the product is already in the cart
+        
+        // Verifica si el producto ya está en el carrito
         const productIndex = cart.findIndex(item => item.id === product.id);
-
+        
         if (productIndex > -1) {
-            // If the product is already in the cart, increase the quantity
+            // Incrementa la cantidad
             cart[productIndex].item += 1;
+            console.log(`Incrementing item for ${product.name}, new quantity: ${cart[productIndex].item}`);
         } else {
-            // If the product is not in the cart, add it with quantity 1
-            product.item = 1;  // Ensure the initial quantity is 1
+            // Agrega nuevo producto al carrito
+            product.item = 1; 
             cart.push(product);
+            console.log(`Adding new product to cart: ${product.name}`);
         }
 
-        // Save the updated cart in localStorage
+        // Guarda el carrito actualizado
         localStorage.setItem('cart', JSON.stringify(cart));
-        console.log('Product added to cart:', cart);
+        console.log('Updated cart after adding:', cart);
 
-        // Update the products in the UI
+        // Actualiza la interfaz de usuario
         setProducts('cart'); 
 
-        // Show a message to the user
+        // Alerta al usuario
         alert(`${product.name} has been added to the cart.`);
     })
     .catch(err => console.error('Error adding product to the cart:', err));
@@ -77,28 +74,25 @@ const setProducts = (name) => {
 
     let data = JSON.parse(localStorage.getItem(name));
 
-    element.innerHTML = '';
+    element.innerHTML = ''; 
 
     if (!data || data.length === 0) {
         element.innerHTML = `<img src="../img/empty-cart.png" class="empty-img" alt="Empty cart">`;
+        console.log("Cart is empty, showing empty cart image.");
     } else {
         data.forEach((product, index) => {
             element.innerHTML += createSmallCards(product, index);
+            console.log(`Added product to DOM: ${product.name}`); 
         });
     }
 
-    // Update the total bill
+    // Actualiza el total de la factura
     updateBill();
-
-    // Set up events for increment and decrement buttons
-    setupEvents();
+    setupEvents('cart'); 
 };
 
 const updateBill = () => {
     const products = JSON.parse(localStorage.getItem('cart')) || [];
-
-    // Log products from localStorage to the console
-    console.log('Products in the cart:', products);
 
     // Ensure valid values for sellPrice and item
     let totalBill = products.reduce((sum, product) => {
@@ -122,23 +116,27 @@ const setupEvents = (name) => {
     const price = document.querySelectorAll(`.${name} .sm-price`);
     const deleteBtn = document.querySelectorAll(`.${name} .sm-delete-btn`);
 
-    // Get products from localStorage
-    let product = JSON.parse(localStorage.getItem(name)) || [];
+    // Retrieve products from localStorage
+    let products = JSON.parse(localStorage.getItem(name)) || [];
+    
 
-    counts.forEach((item, i) => {
+    counts.forEach((countElement, i) => {
+        let currentProduct = products[i];
         let cost = parseFloat(price[i].getAttribute('data-price')) || 0;
+        let itemCount = parseInt(countElement.innerHTML);  // Ensure the value is an integer
 
         // Decrement button
         counterMinus[i].addEventListener('click', () => {
-            if (item.innerHTML > 1) {
-                item.innerHTML--;
+            if (itemCount > 1) {
+                itemCount--;
+                countElement.innerHTML = itemCount;
 
-                // Update price in the DOM
-                price[i].innerHTML = `$${(item.innerHTML * cost).toFixed(2)}`;
+                // Update the price based on the new quantity
+                price[i].innerHTML = `$${(itemCount * cost).toFixed(2)}`;
 
-                // Update quantity in the product object
-                product[i].item = Number(item.innerHTML);
-                localStorage.setItem(name, JSON.stringify(product));
+                // Update the product's quantity in localStorage
+                products[i].item = itemCount;
+                localStorage.setItem(name, JSON.stringify(products));
 
                 // Recalculate the total bill
                 updateBill();
@@ -147,15 +145,16 @@ const setupEvents = (name) => {
 
         // Increment button
         counterPlus[i].addEventListener('click', () => {
-            if (item.innerHTML < 9) {
-                item.innerHTML++;
+            if (itemCount < 9) {
+                itemCount++;
+                countElement.innerHTML = itemCount;
 
-                // Update price in the DOM
-                price[i].innerHTML = `$${(item.innerHTML * cost).toFixed(2)}`;
+                // Update the price in the DOM
+                price[i].innerHTML = `$${(itemCount * cost).toFixed(2)}`;
 
-                // Update quantity in the product object
-                product[i].item = Number(item.innerHTML);
-                localStorage.setItem(name, JSON.stringify(product));
+                // Update the product's quantity in localStorage
+                products[i].item = itemCount;
+                localStorage.setItem(name, JSON.stringify(products));
 
                 // Recalculate the total bill
                 updateBill();
@@ -166,18 +165,23 @@ const setupEvents = (name) => {
     // Handle delete product buttons
     deleteBtn.forEach((item, i) => {
         item.addEventListener('click', () => {
-            product = product.filter((data, index) => index !== i);
-            localStorage.setItem(name, JSON.stringify(product));
-            
-            const productElement = deleteBtn[i].closest('.sm-product');
-            productElement.remove();
+            // Remove the product from localStorage and the DOM
+            products.splice(i, 1); // Remove the product at index `i`
+            localStorage.setItem(name, JSON.stringify(products));
 
-            // Recalculate the total bill
+            // Remove the product element from the DOM
+            const productElement = deleteBtn[i].closest('.sm-product');
+            if (productElement) {
+                productElement.remove();
+            }
+
+            // Recalculate the total bill after removing the product
             updateBill();
         });
     });
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-    setProducts('cart');
+    setProducts('cart'); 
+    setupEvents('cart'); 
 });
