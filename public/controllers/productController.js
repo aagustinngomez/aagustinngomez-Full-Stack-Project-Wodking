@@ -243,6 +243,15 @@ export const getProducts = async (req, res) => {
                 "sellPrice": 18.12,
                 "shortDes": "A comfortable accessories",
                 "tags": ["accessories"]
+            },
+            {
+                "id": "fjNXAmCX8LQgwteuDkRv",
+                "actualPrice": 70.12,
+                "images": ["../img/product.jpg"],
+                "name": "Casal",
+                "sellPrice": 45.21,
+                "shortDes": "Comfortable shoes for running",
+                "tags": ["bestseller"]
             }
         ];
 

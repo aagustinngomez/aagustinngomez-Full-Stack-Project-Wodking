@@ -140,7 +140,7 @@ fetch('/test-firebase')
         }
 
         if (bestsellerProducts.length > 0) {
-            createProductSlider(bestsellerProducts, '#bestseller-products', 'Bestseller');
+            createProductSlider(bestsellerProducts, '#bestseller-products', 'bestseller');
         }
 
         if (accessoriesProducts.length > 0) {
@@ -186,8 +186,8 @@ const createProductCards = (products) => {
     return productCardsContainer;
 };
 
-// Add product to cart or wishlist
-const add_product_to_cart_or_wishlist = (type, product, size = null) => {
+// Add product to cart 
+const add_product_to_cart = (type, product, size = null) => {
     try {
         // Ensure product has the required properties
         if (!product || !product.name || !product.sellPrice || !product.images || !product.images.length) {
@@ -220,7 +220,7 @@ const add_product_to_cart_or_wishlist = (type, product, size = null) => {
         localStorage.setItem(type, JSON.stringify(data));
 
         // Display success message
-        alert(`${product.name} has been added to the ${type === 'cart' ? 'cart' : 'wishlist'}.`);
+        alert(`${product.name} has been added to the cart.`);
     } catch (error) {
         console.error("Error adding product:", error.message);
         alert("There was an issue adding the product. Please try again.");

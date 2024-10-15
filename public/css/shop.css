@@ -1,4 +1,4 @@
-@import 'nav.css';
+@import 'nav.css'; 
 @import 'footer.css';  
 
 body {
@@ -14,7 +14,7 @@ body {
 .filter-btn {
     padding: 10px 20px;
     margin: 5px;
-    background-color: #007BFF;
+    background-color: #383838;
     color: white;
     border: none;
     cursor: pointer;
@@ -22,7 +22,7 @@ body {
 }
 
 .filter-btn:hover {
-    background-color: #0056b3;
+    background-color: #383838;
 }
 
 .product-grid {
@@ -32,7 +32,7 @@ body {
     gap: 20px;
 }
 
-/* Tarjetas de productos */
+/* Product Cards */
 
 .product{
     position: relative;
@@ -172,4 +172,16 @@ body {
 
 .pre-btn:hover img, .nxt-btn:hover img{
     opacity: 1;
+}
+
+@media (max-width: 1024px) {
+    .product-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .product-container {
+        grid-template-columns: 1fr;
+    }
 }

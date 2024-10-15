@@ -3,16 +3,16 @@ const productMainImage = document.querySelector('.product-main-image');
 
 // Select all image thumbnails
 const productImages = document.querySelectorAll(".product-images img");
-const productImageSlide = document.querySelector(".image-slider"); // Select the image slider
+const productImageSlide = document.querySelector(".image-slider"); 
 
-let activeImageSlide = 0; // Default active image in the slider
+let activeImageSlide = 0; 
 
 productImages.forEach((item, i) => {
     item.addEventListener('click', () => {
-        productImages[activeImageSlide].classList.remove('active'); // Remove 'active' class from the current thumbnail
-        item.classList.add('active'); // Add 'active' class to the clicked thumbnail
-        productMainImage.src = item.src; // Change the main image to the clicked image
-        activeImageSlide = i; // Update the active image index
+        productImages[activeImageSlide].classList.remove('active'); 
+        item.classList.add('active');
+        productMainImage.src = item.src;
+        activeImageSlide = i;
     });
 });
 
@@ -22,12 +22,12 @@ const sizeBtns = document.querySelectorAll('.size-radio-btn'); // Select size bu
 let checkedBtn = 0; // Default checked button
 let size;
 
-sizeBtns.forEach((item, i) => { // Iterate through each button
-    item.addEventListener('click', () => { // Add click event to each button
-        sizeBtns[checkedBtn].classList.remove('check'); // Remove 'check' class from the current button
-        item.classList.add('check'); // Add 'check' class to the clicked button
-        checkedBtn = i; // Update the checked button
-        size = item.innerHTML; // Get the selected size
+sizeBtns.forEach((item, i) => { 
+    item.addEventListener('click', () => { 
+        sizeBtns[checkedBtn].classList.remove('check');
+        item.classList.add('check'); 
+        checkedBtn = i; 
+        size = item.innerHTML; 
     });
 });
 

@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const productHTML = `
                 <a href="../pages/product.html?id=${product.id}" class="product-card">
                     <div class="product-image">
-                        <img src="${product.images[0]}" class="product-thumb" alt="Product Image">
+                        <img src="${product.images && product.images[0] ? product.images[0] : 'default-image-path.png'}" class="product-thumb" alt="Product Image">
                         <button class="card-btn" onclick="addToCart('${product.id}')">Add to Cart</button>
                     </div>
                     <div class="product-info">
@@ -47,8 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     </div>
                 </a>
             `;
-
-            // Insert each product into the grid
+        
             productGrid.innerHTML += productHTML;
         });
     };

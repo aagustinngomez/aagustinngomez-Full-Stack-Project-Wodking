@@ -3,7 +3,9 @@ const createNav = () => {
 
     nav.innerHTML = `
         <div class="nav">
-            <img src="../img/wodking.png" class="brand-logo" alt="Brand logo">
+            <a href="../pages/index.html">
+                <img src="../img/wodking.png" class="brand-logo" alt="Brand logo">
+            </a>
             <div class="nav-items">
                 <div class="search">
                     <input type="text" class="search-box" placeholder="Search brand, product">
@@ -22,7 +24,7 @@ const createNav = () => {
         <ul class="links-container">
             <li class="link-item"><a href="../pages/index.html" class="link">Home</a></li>
             <li class="link-item"><a href="../pages/shop.html" class="link">Shop</a></li>
-            <li class="link-item"><a href="../pages/collections.html" class="link">Collections</a></li>
+            <li class="link-item"><a href="../pages/aboutUs.html" class="link">About Us</a></li>
             <li class="link-item"><a href="../pages/contact.html" class="link">Contact</a></li>
         </ul>
     `;
@@ -63,7 +65,7 @@ const handleSearch = () => {
 
     if (!searchBtn || !searchBox) {
         console.error('Search button or search box not found!');
-        return; // Salir si no se encuentra el botón o el cuadro de búsqueda
+        return; // Exit if the button or search box is not found
     }
 
     searchBtn.addEventListener('click', () => {
@@ -73,13 +75,20 @@ const handleSearch = () => {
         }
     });
 
+    // Check if we are on the search results page by looking for #search-key
+    const searchKeyElement = document.querySelector('#search-key');
+    if (!searchKeyElement) {
+        // Not on the search results page, no need to proceed
+        return;
+    }
+
     // Capture the search parameter from the URL
     const params = new URLSearchParams(window.location.search);
     const searchKey = params.get('q');
 
     // Check if there is a search term
     if (searchKey) {
-        document.querySelector('#search-key').textContent = `Search results for "${searchKey}"`;
+        searchKeyElement.textContent = `Search results for "${searchKey}"`;
         getProducts(searchKey)
             .then(data => {
                 createProductCards(data, '.card-container'); // Render the products
@@ -88,24 +97,13 @@ const handleSearch = () => {
                 console.error('Error fetching products:', error);
             });
     } else {
-        document.querySelector('#search-key').textContent = "No search key provided";
+        searchKeyElement.textContent = "No search key provided";
     }
 };
 
-// Function to fetch products from the backend based on the search term
-function getProducts(searchKey) {
-    return fetch(`/api/search?q=${encodeURIComponent(searchKey)}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => data)
-        .catch(error => console.error('Error fetching products:', error));
-}
-
-// Initializing the search functionality when the DOM is fully loaded
+// Ensure DOM is ready before running search functionality
 document.addEventListener('DOMContentLoaded', () => {
-    handleSearch();
+    createNav(); // Ensure nav is created first
+    handleUserAuth(); // User authentication
+    handleSearch(); // Initialize search functionality
 });

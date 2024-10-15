@@ -32,7 +32,8 @@ body{
 input:not(.search-box, .checkbox, .size-checkbox, input[type="file"]),
 textarea{
     display: block;
-    width: 300px;
+    width: 100%;
+    max-width: 300px;
     height: 40px;
     padding: 20px;
     border-radius: 5px;
@@ -51,7 +52,8 @@ textarea{
 }
 
 .submit-btn{
-    width: 300px;
+    width: 100%;
+    max-width: 300px;
     height: 40px;
     text-align: center;
     line-height: 40px;
@@ -60,14 +62,12 @@ textarea{
     border-radius: 2px;
     border: none;
     cursor: pointer;
-    display: block;
     margin: 30px 0;
 }
 
-/* checkbox styles */
-
 .checkbox{
     -webkit-appearance: none;
+    appearance: none;
     position: relative;
     width: 15px;
     height: 15px;
@@ -117,9 +117,9 @@ label a{
     display: block;
 }
 
-/* alert */
 .alert-box{
-    width: 300px;
+    width: 90%;
+    max-width: 300px;
     min-height: 150px;
     background: #fff;
     border-radius: 10px;
@@ -153,4 +153,17 @@ label a{
     text-align: center;
     line-height: 30px;
     font-weight: 500;
+}
+
+@media (max-width: 600px) {
+    body {
+        justify-content: flex-start;
+        padding: 20px;
+    }
+
+    input:not(.search-box, .checkbox, .size-checkbox, input[type="file"]),
+    .submit-btn,
+    .alert-box {
+        width: 100%;
+    }
 }

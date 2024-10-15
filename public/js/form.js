@@ -1,4 +1,3 @@
-// redirect to home page if user logged in
 window.onload = () => {
     if(sessionStorage.user){
         user = JSON.parse(sessionStorage.user);
@@ -23,19 +22,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     submitBtn.addEventListener('click', () => {
         if (name.value.length < 3) {
-            showAlert('El nombre debe tener al menos 3 letras');
+            showAlert('Name must be at least 3 characters long');
         } else if (!email.value.length) {
-            showAlert('Introduce tu correo electrónico');
+            showAlert('Please enter your email address');
         } else if (password.value.length < 8) {
-            showAlert('La contraseña debe tener al menos 8 caracteres');
+            showAlert('Password must be at least 8 characters long');
         } else if (!number.value.length) {
-            showAlert('Introduce tu número de teléfono');
+            showAlert('Please enter your phone number');
         } else if (!Number(number.value) || number.value.length < 10) {
-            showAlert('Número inválido, introduce uno válido');
+            showAlert('Invalid number, please enter a valid phone number');
         } else if (!tac.checked) {
-            showAlert('Debes aceptar los términos y condiciones');
+            showAlert('You must accept the terms and conditions');
         } else {
             loader.style.display = 'block';
+            console.log({
+                name: name.value,
+                email: email.value,
+                password: password.value,
+                number: number.value,
+                gender: gender.value
+            });
             fetch('/api/users/register', {
                 method: 'POST',
                 headers: {
@@ -51,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .then(response => response.json())
             .then(data => {
-                if (data.message === 'Usuario registrado correctamente') {
+                if (data.message === 'User registered successfully') {
                     location.replace('/');
                 } else {
                     showAlert('Error: ' + data.message);
@@ -59,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .catch(error => {
                 console.error('Error:', error);
-                showAlert('Algo salió mal');
+                showAlert('Something went wrong');
             })
             .finally(() => {
                 loader.style.display = 'none';

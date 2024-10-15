@@ -1,28 +1,28 @@
-body{
+body {
     display: block;
     padding: 0 10vw;
 }
 
-.logo{
+.logo {
     margin: 20px auto 50px;
 }
 
-input, textarea{
+input, textarea {
     font-weight: 500;
 }
 
-input:not(input[type="checkbox"]){
+input:not(input[type="checkbox"]) {
     width: 100%;
 }
 
-textarea{
+textarea {
     width: 100%;
     height: 270px;
     resize: none;
     padding: 10px 20px;
 }
 
-.product-info{
+.product-info {
     width: 100%;
     height: 500px;
     display: grid;
@@ -32,7 +32,7 @@ textarea{
     margin-bottom: 20px;
 }
 
-.product-image{
+.product-image {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -43,24 +43,24 @@ textarea{
     text-shadow: 0 0 10px #fff;
 }
 
-.text{
+.text {
     color: #383838;
     font-size: 20px;
     font-weight: 500;
 }
 
-.upload-image-sec, .select-sizes{
+.upload-image-sec, .select-sizes {
     background: #fff;
     border-radius: 10px;
     padding: 20px;
 }
 
-.text img{
+.text img {
     height: 20px;
     margin-right: 10px;
 }
 
-.upload-catalouge{
+.upload-catalouge {
     width: 100%;
     margin: 20px 0;
     display: grid;
@@ -68,7 +68,7 @@ textarea{
     grid-gap: 10px;
 }
 
-.upload-image{
+.upload-image {
     width: 100%;
     height: 100px;
     background: #f5f5f5;
@@ -76,17 +76,16 @@ textarea{
     background-size: cover;
 }
 
-.upload-image:hover{
+.upload-image:hover {
     background: rgba(0, 0, 0, 0.2);
     background-size: cover;
 }
 
-
-.sizes{
+.sizes {
     margin-top: 30px;
 }
 
-.size-checkbox{
+.size-checkbox {
     -webkit-appearance: none;
     width: 100px;
     height: 40px;
@@ -99,7 +98,7 @@ textarea{
     color: #383838;
 }
 
-.size-checkbox::after{
+.size-checkbox::after {
     content: attr(value);
     position: absolute;
     top: 50%;
@@ -109,32 +108,32 @@ textarea{
     text-transform: uppercase;
 }
 
-.size-checkbox:checked{
+.size-checkbox:checked {
     background: #383838;
     color: #fff;
 }
 
 input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button{
+input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
 
-.product-price{
+.product-price {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 20px;
 }
 
-.product-price input{
+.product-price input {
     margin: 0;
 }
 
-.buttons{
+.buttons {
     margin: 20px 0 50px;
 }
 
-.btn{
+.btn {
     padding: 10px 30px;
     color: #fff;
     background: #383838;
@@ -145,6 +144,68 @@ input::-webkit-inner-spin-button{
     cursor: pointer;
 }
 
-#save-btn{
+#save-btn {
     background: #a9a9a9;
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 0 5vw;
+    }
+
+    .product-info {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        height: auto;
+    }
+
+    .product-image {
+        height: 300px;
+        grid-row: 1;
+    }
+
+    .upload-catalouge {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .size-checkbox {
+        width: 80px;
+        height: 35px;
+    }
+
+    .product-price {
+        grid-template-columns: 1fr;
+    }
+
+    .btn {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .product-info {
+        grid-gap: 10px;
+    }
+
+    .upload-catalouge {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .upload-image {
+        height: 80px;
+    }
+
+    .size-checkbox {
+        width: 70px;
+        height: 30px;
+    }
+
+    .product-price {
+        grid-gap: 10px;
+    }
+
+    .btn {
+        font-size: 18px;
+    }
 }
