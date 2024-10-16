@@ -3,7 +3,7 @@ const createNav = () => {
 
     nav.innerHTML = `
         <div class="nav">
-            <a href="../pages/index.html">
+            <a href="/">
                 <img src="../img/wodking.png" class="brand-logo" alt="Brand logo">
             </a>
             <div class="nav-items">

@@ -26,7 +26,6 @@ const db = admin.firestore();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-console.log('__dirname:', __dirname); // For debugging
 
 // Initialize Express.js
 const app = express();
@@ -96,7 +95,7 @@ app.use(express.static(publicPath));
 
 // Route to serve index.html
 app.get('/', (req, res) => {
-    res.sendFile(path.join(publicPath, 'pages/index.html'));
+    res.sendFile(path.join(__dirname, 'index.html')); 
 });
 
 // Connect to MongoDB

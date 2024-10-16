@@ -25,4 +25,10 @@ This is a full-stack web application built for **WODKING**, a CrossFit clothing 
    git clone https://github.com/aagustinngomez/aagustinngomez-Full-Stack-Project-Wodking
 
  ## Live Demo
-You can see the live demo of the project here.  
+You can see the live demo of the project [here](https://aagustinngomez.github.io/aagustinngomez-Full-Stack-Project-Wodking/).  
+
+2. Install the dependencies:
+  npm install 
+
+3. Start the application
+  npm start
