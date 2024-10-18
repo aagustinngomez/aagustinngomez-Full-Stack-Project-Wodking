@@ -57,6 +57,22 @@
 
     <footer></footer>
 
+     <script>
+        const isGitHubPages = window.location.href.includes('github.io');
+        
+    
+        const basePath = isGitHubPages ? '/aagustinngomez-Full-Stack-Project-Wodking' : '';
+
+        document.querySelector('link[rel="stylesheet"]').href = `${basePath}/css/home.css`;
+        document.querySelector('img.logo').src = `${basePath}/img/wodking1.png`;
+        document.querySelectorAll('script').forEach(script => {
+            const src = script.getAttribute('src');
+            if (src) {
+                script.src = `${basePath}${src}`;
+            }
+        });
+    </script>
+
     <script src="../js/nav.js"></script>
     <script src="../js/footer.js"></script>
     <script src="../js/home.js"></script>
