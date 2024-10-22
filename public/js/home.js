@@ -65,11 +65,11 @@ const createProductSlider = (data, parent, title) => {
     slideContainer.innerHTML = `
     <section class="product">
         <h2 class="product-category">${title}</h2>
-        <button class="pre-btn"><img src="../img/arrow.png" alt="Prev"></button>
-        <button class="nxt-btn"><img src="../img/arrow.png" alt="Next"></button>
+        <button class="pre-btn"><img src="/public/img/arrow.png" alt="Prev"></button>
+        <button class="nxt-btn"><img src="/public/img/arrow.png" alt="Next"></button>
         <div class="product-container">
              ${productsWithImages.map(product => `
-                 <a href="../pages/product.html?id=${product.id}" class="product-card">
+                 <a href="public/pages/product.html?id=${product.id}" class="product-card">
                      <div class="product-image">
                            <img src="${product.images[0]}" class="product-thumb" alt="Product Image">
                            <button class="card-btn" onclick="addToCart('${product.id}')">add to cart</button>
@@ -91,7 +91,7 @@ const createProductSlider = (data, parent, title) => {
 };
 
 // Fetch and display products from Firebase
-fetch('/test-firebase')
+fetch('http://localhost:3000/test-firebase')
     .then(response => response.json())
     .then(products => {
         console.log("Products fetched from Firebase:", products);
@@ -101,7 +101,7 @@ fetch('/test-firebase')
             if (typeof product.tags === 'string') {
                 product.tags = product.tags.split(',').map(tag => tag.trim());
             } else if (!Array.isArray(product.tags)) {
-                product.tags = [];  // O puedes establecerlo a un valor por defecto si no es un array.
+                product.tags = [];  
             }
         });
 

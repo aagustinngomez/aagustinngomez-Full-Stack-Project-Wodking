@@ -4,7 +4,7 @@ const createNav = () => {
     nav.innerHTML = `
         <div class="nav">
             <a href="/">
-                <img src="../img/wodking.png" class="brand-logo" alt="Brand logo">
+                <img src="public/img/wodking.png" class="brand-logo" alt="Brand logo">
             </a>
             <div class="nav-items">
                 <div class="search">
@@ -12,20 +12,20 @@ const createNav = () => {
                     <button class="search-btn">Search</button>
                 </div>
                 <a>
-                    <img src="../img/user.png" id="user-img" alt="User icon">
+                    <img src="public/img/user.png" id="user-img" alt="User icon">
                     <div class="login-logout-popup hide">
                         <p class="account-info">Log in as, name</p>
                         <button class="btn" id="user-btn">Log out</button>
                     </div>
                 </a>
-                <a href="../pages/cart.html"><img src="../img/cart.png" alt="Cart icon"></a>
+                <a href="public/pages/cart.html"><img src="public/img/cart.png" alt="Cart icon"></a>
             </div>
         </div>
         <ul class="links-container">
-            <li class="link-item"><a href="../pages/index.html" class="link">Home</a></li>
-            <li class="link-item"><a href="../pages/shop.html" class="link">Shop</a></li>
-            <li class="link-item"><a href="../pages/aboutUs.html" class="link">About Us</a></li>
-            <li class="link-item"><a href="../pages/contact.html" class="link">Contact</a></li>
+            <li class="link-item"><a href="/" class="link">Home</a></li>
+            <li class="link-item"><a href="public/pages/shop.html" class="link">Shop</a></li>
+            <li class="link-item"><a href="public/pages/aboutus.html" class="link">About Us</a></li>
+            <li class="link-item"><a href="public/pages/contact.html" class="link">Contact</a></li>
         </ul>
     `;
 };
@@ -53,7 +53,7 @@ const handleUserAuth = () => {
         popupText.innerHTML = 'Log in to place an order';
         actionBtn.innerHTML = 'Log in';
         actionBtn.addEventListener('click', () => {
-            location.href = '../pages/login.html';
+            location.href = '/public/pages/login.html';
         });
     }
 };
@@ -71,7 +71,7 @@ const handleSearch = () => {
     searchBtn.addEventListener('click', () => {
         if (searchBox.value.length) {
             const searchValue = encodeURIComponent(searchBox.value);
-            location.href = `../pages/search.html?q=${searchValue}`;
+            location.href = `/public/pages/search.html?q=${searchValue}`;
         }
     });
 

@@ -9,6 +9,7 @@ import aws from 'aws-sdk';
 import productsRouter from './public/routes/productsRoutes.js';
 import dotenv from 'dotenv';
 import fs from 'fs';
+import cors from 'cors';
 import userRoutes from './public/routes/userRoutes.js'
 
 // Read the JSON file with fs.readFileSync
@@ -27,6 +28,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 
+
 // Initialize Express.js
 const app = express();
 
@@ -36,48 +38,43 @@ app.use('/api/users', userRoutes);
 
 // Define route to get products
 app.get('/api/get-products', async (req, res) => {
-    const { id, search } = req.query; // Obtener id y search de la query
+    const { id, search } = req.query; 
 
     try {
         if (id) {
-            // Busca el producto por ID en Firestore
             const productDoc = await db.collection('products').doc(id).get();
 
-            // Verifica si el producto existe
             if (!productDoc.exists) {
                 return res.status(404).json({ error: 'Product not found' });
             }
-
-            // Si existe, envía el producto
             const product = productDoc.data();
-            product.id = productDoc.id; // Asegura que el ID del documento esté en el objeto
+            product.id = productDoc.id; 
             return res.json(product);
         } else if (search) {
-            // Si hay un término de búsqueda, buscar productos cuyo nombre coincida
+           
             const snapshot = await db.collection('products')
-                .where('name', '>=', search)  // Búsqueda que empieza con 'search'
-                .where('name', '<=', search + '\uf8ff')  // Límite de búsqueda
+                .where('name', '>=', search)  
+                .where('name', '<=', search + '\uf8ff')  
                 .get();
 
-            // Si no se encontraron productos
+           
             if (snapshot.empty) {
                 return res.status(404).json({ error: 'No products found matching the search term' });
             }
 
-            // Si hay productos coincidentes, envíalos
+           
             const products = snapshot.docs.map(doc => {
                 const product = doc.data();
-                product.id = doc.id; // Asegura que el ID del documento esté en el objeto
-                return product;
+                product.id = doc.id; 
             });
 
             return res.json(products);
         } else {
-            // Si no se proporciona ID ni término de búsqueda, retorna todos los productos
+           
             const snapshot = await db.collection('products').get();
             const products = snapshot.docs.map(doc => {
                 const product = doc.data();
-                product.id = doc.id; // Incluye el ID de cada documento
+                product.id = doc.id; 
                 return product;
             });
 
@@ -146,24 +143,28 @@ async function generateUrl() {
     return uploadUrl;
 }
 
+// Config CORS
+app.use(cors()); 
+
 // Routes
 app.get('/test-firebase', async (req, res) => {
     try {
         const snapshot = await db.collection('products').get();
         const products = snapshot.docs.map(doc => {
             const product = doc.data();
-            product.id = doc.id; // Assign the document ID to the 'id' property
+            product.id = doc.id;
             return product;
         });
         res.json(products);
     } catch (error) {
-        console.error("Error connecting to Firestore:", error);
-        res.status(500).json({ error: "Failed to connect to Firestore" });
+        console.error("Error fetching products from Firestore:", error);
+        res.status(500).json({ error: "Failed to fetch products" });
     }
 });
 
+
 app.get('/signup', (req, res) => {
-    res.sendFile(path.join(publicPath, "pages/signup.html"));
+    res.sendFile(path.join(publicPath, "../pages/signup.html"));
 });
 
 app.post('/signup', (req, res) => {
@@ -229,7 +230,7 @@ app.get('/api/search', async (req, res) => {
 
 
 app.get('/login', (req, res) => {
-    res.sendFile(path.join(staticPath, "pages/login.html"));
+    res.sendFile(path.join(staticPath, "../pages/login.html"));
 });
 
 app.post('/login', async (req, res) => {
@@ -294,11 +295,11 @@ app.post('/seller', (req, res) => {
 });
 
 app.get('/add-product', (req, res) => {
-    res.sendFile(path.join(staticPath, "pages/addProduct.html"));
+    res.sendFile(path.join(staticPath, "../pages/addProduct.html"));
 });
 
 app.get('/add-product/:id', (req, res) => {
-    res.sendFile(path.join(staticPath, "pages/addProduct.html"));
+    res.sendFile(path.join(staticPath, "../pages/addProduct.html"));
 });
 
 app.get('/s3url', (req, res) => {
