@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wodking</title>
-    <link rel="stylesheet" href="/public/css/home.css">
+    <link rel="stylesheet" href="public/css/home.css">
 </head>
 
 <body>
@@ -60,24 +60,35 @@
     <script>
         // Detect if the site is hosted on GitHub Pages
         const isGitHubPages = window.location.href.includes('github.io');
-        
+    
         // Set the base path accordingly
         const basePath = isGitHubPages ? '/aagustinngomez-Full-Stack-Project-Wodking' : '';
     
-        // Update the link to the CSS file with the basePath
-        document.querySelector('link[rel="stylesheet"]').href = `${basePath}/public/css/home.css`;
+        // Update CSS links
+        document.querySelectorAll('link[rel="stylesheet"]').forEach(link => {
+            const href = link.getAttribute('href');
+            // Update the href to include basePath, but avoid if it's already absolute (e.g., CDN links)
+            if (!href.startsWith('http') && !href.startsWith('https')) {
+                link.href = `${basePath}/${href}`;
+            }
+        });
     
-        // Update image paths
-        document.querySelector('img.logo').src = `${basePath}/public/img/wodking1.png`;
-        document.querySelectorAll('.collection img').forEach((img, index) => {
-            const imgSrc = index === 0 ? 'Toomey_win.jpg' : 'agustin.jpg'; 
-            img.src = `${basePath}/public/img/${imgSrc}`;
+        // Update image paths (all images, including logo)
+        document.querySelectorAll('img').forEach((img) => {
+            const src = img.getAttribute('src');
+            // Update only local images, avoid CDN links or data URLs
+            if (!src.startsWith('http') && !src.startsWith('data')) {
+                img.src = `${basePath}/${src}`;
+            }
         });
     
         // Update JS script paths
         document.querySelectorAll('script[src]').forEach(script => {
             const src = script.getAttribute('src');
-            script.src = `${basePath}/${src}`;
+            // Update only local scripts, avoid external ones
+            if (!src.startsWith('http')) {
+                script.src = `${basePath}/${src}`;
+            }
         });
     </script>
 
