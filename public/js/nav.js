@@ -10,7 +10,7 @@ const createNav = () => {
     nav.innerHTML = `
         <div class="nav">
             <a href="${basePath}">
-                <img src="${basePath}public/img/wodking.png" class="brand-logo" alt="Brand logo">
+                <img src="${basePath}public/img/WODKING.png" class="brand-logo" alt="Brand logo">
             </a>
             <div class="nav-items">
                 <div class="search">

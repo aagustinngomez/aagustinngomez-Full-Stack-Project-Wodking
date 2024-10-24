@@ -89,9 +89,19 @@
         </div>
 
         <div class="cta">
-            <button onclick="location.href='../pages/index.html'">Go to Home</button>
+            <button onclick="location.href='/publci/pages/index.html'">Go to Home</button>
         </div>
     </div>
+
+    <script src="js/nav.js"></script>
+    <script src="js/footer.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            loadNav();   
+            loadFooter(); 
+        });
+    </script>
 
 </body>
 </html>
