@@ -30,39 +30,39 @@ const createNav = () => {
         <ul class="links-container">
             <li class="link-item"><a href="${basePath}" class="link">Home</a></li>
             <li class="link-item"><a href="${basePath}public/pages/shop.html" class="link">Shop</a></li>
-            <li class="link-item"><a href="${basePath}public/pages/aboutus.html" class="link">About Us</a></li>
+            <li class="link-item"><a href="${basePath}public/pages/aboutuss.html" class="link">About Us</a></li>
             <li class="link-item"><a href="${basePath}public/pages/contact.html" class="link">Contact</a></li>
         </ul>
     `;
 };
 
-// Function to handle user login/logout
-const handleUserAuth = () => {
-    const userImageButton = document.querySelector('#user-img');
-    const userPopup = document.querySelector('.login-logout-popup');
-    const popupText = document.querySelector('.account-info');
-    const actionBtn = document.querySelector('#user-btn');
+    // Function to handle user login/logout
+    const handleUserAuth = () => {
+        const userImageButton = document.querySelector('#user-img');
+        const userPopup = document.querySelector('.login-logout-popup');
+        const popupText = document.querySelector('.account-info');
+        const actionBtn = document.querySelector('#user-btn');
 
-    userImageButton.addEventListener('click', () => {
-        userPopup.classList.toggle('hide');
-    });
+        userImageButton.addEventListener('click', () => {
+            userPopup.classList.toggle('hide');
+        });
 
-    let user = JSON.parse(sessionStorage.user || null);
-    if (user) {
-        popupText.innerHTML = `Log in as, ${user.name}`;
-        actionBtn.innerHTML = 'Log out';
-        actionBtn.addEventListener('click', () => {
-            sessionStorage.clear();
-            location.reload();
-        });
-    } else {
-        popupText.innerHTML = 'Log in to place an order';
-        actionBtn.innerHTML = 'Log in';
-        actionBtn.addEventListener('click', () => {
-            location.href = '/public/pages/login.html';
-        });
-    }
-};
+        let user = JSON.parse(sessionStorage.user || null);
+        if (user) {
+            popupText.innerHTML = `Log in as, ${user.name}`;
+            actionBtn.innerHTML = 'Log out';
+            actionBtn.addEventListener('click', () => {
+                sessionStorage.clear();
+                location.reload();
+            });
+        } else {
+            popupText.innerHTML = 'Log in to place an order';
+            actionBtn.innerHTML = 'Log in';
+            actionBtn.addEventListener('click', () => {
+                location.href = 'pages/login.html';
+            });
+        }
+    };
 
 // Function to handle search functionality
 const handleSearch = () => {
