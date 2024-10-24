@@ -1,10 +1,16 @@
 const createNav = () => {
     const nav = document.querySelector('.navbar');
 
+    // Detectar si el sitio está corriendo en GitHub Pages
+    const isGitHubPages = window.location.href.includes('github.io');
+    
+    // Ajustar el basePath dependiendo del entorno
+    const basePath = isGitHubPages ? '/aagustinngomez-Full-Stack-Project-Wodking/' : '/';
+
     nav.innerHTML = `
         <div class="nav">
-            <a href="/">
-                <img src="public/img/wodking.png" class="brand-logo" alt="Brand logo">
+            <a href="${basePath}">
+                <img src="${basePath}public/img/wodking.png" class="brand-logo" alt="Brand logo">
             </a>
             <div class="nav-items">
                 <div class="search">
@@ -12,20 +18,20 @@ const createNav = () => {
                     <button class="search-btn">Search</button>
                 </div>
                 <a>
-                    <img src="public/img/user.png" id="user-img" alt="User icon">
+                    <img src="${basePath}public/img/user.png" id="user-img" alt="User icon">
                     <div class="login-logout-popup hide">
                         <p class="account-info">Log in as, name</p>
                         <button class="btn" id="user-btn">Log out</button>
                     </div>
                 </a>
-                <a href="public/pages/cart.html"><img src="public/img/cart.png" alt="Cart icon"></a>
+                <a href="${basePath}public/pages/cart.html"><img src="${basePath}public/img/cart.png" alt="Cart icon"></a>
             </div>
         </div>
         <ul class="links-container">
-            <li class="link-item"><a href="/" class="link">Home</a></li>
-            <li class="link-item"><a href="public/pages/shop.html" class="link">Shop</a></li>
-            <li class="link-item"><a href="public/pages/aboutus.html" class="link">About Us</a></li>
-            <li class="link-item"><a href="public/pages/contact.html" class="link">Contact</a></li>
+            <li class="link-item"><a href="${basePath}" class="link">Home</a></li>
+            <li class="link-item"><a href="${basePath}public/pages/shop.html" class="link">Shop</a></li>
+            <li class="link-item"><a href="${basePath}public/pages/aboutus.html" class="link">About Us</a></li>
+            <li class="link-item"><a href="${basePath}public/pages/contact.html" class="link">Contact</a></li>
         </ul>
     `;
 };
