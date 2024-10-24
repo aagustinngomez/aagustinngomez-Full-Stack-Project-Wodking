@@ -91,12 +91,15 @@ const createProductSlider = (data, parent, title) => {
 };
 
 // Fetch and display products from Firebase
-fetch('http://localhost:3000/test-firebase')
-    .then(response => response.json())
-    .then(products => {
+firebase.firestore().collection('products').get()
+    .then((querySnapshot) => {
+        let products = [];
+        querySnapshot.forEach((doc) => {
+            products.push(doc.data());
+        });
+
         console.log("Products fetched from Firebase:", products);
 
-        // Log each product to check its structure
         products.forEach(product => {
             if (typeof product.tags === 'string') {
                 product.tags = product.tags.split(',').map(tag => tag.trim());
