@@ -6,9 +6,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     submitBtn.addEventListener('click', () => {
         if (!email.value.length) {
-            showAlert('Introduce tu correo electrónico');
+            showAlert('Please enter your email');
         } else if (password.value.length < 8) {
-            showAlert('La contraseña debe tener al menos 8 caracteres');
+            showAlert('Password must be at least 8 characters long');
         } else {
             loader.style.display = 'block';
             fetch('/login', {
@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .then(response => response.json())
             .then(data => {
-                if (data.message === 'Inicio de sesión exitoso') {
+                if (data.message === 'Login successful') {
                     sessionStorage.setItem('user', JSON.stringify(data));
                     location.replace('/');
                 } else {
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .catch(error => {
                 console.error('Error:', error);
-                showAlert('Algo salió mal');
+                showAlert('Something went wrong');
             })
             .finally(() => {
                 loader.style.display = 'none';

@@ -59,7 +59,7 @@ const createNav = () => {
             popupText.innerHTML = 'Log in to place an order';
             actionBtn.innerHTML = 'Log in';
             actionBtn.addEventListener('click', () => {
-                location.href = 'public/pages/login.html';
+                location.href = `${basePath}public/pages/login.html`;
             });
         }
     };
