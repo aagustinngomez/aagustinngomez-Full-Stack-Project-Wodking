@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Function to fetch products from Firebase or backend
     const fetchProducts = () => {
-        return fetch('/test-firebase')
+        return fetch('https://agustin-b41f3-default-rtdb.firebaseio.com/products.json')
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);

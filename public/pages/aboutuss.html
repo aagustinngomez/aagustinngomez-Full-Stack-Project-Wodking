@@ -89,19 +89,17 @@
         </div>
 
         <div class="cta">
-            <button onclick="location.href='/'">Go to Home</button>
+            <button onclick="location.href='${basePath}'">Go to Home</button>
         </div>
     </div>
 
-    <script src="js/nav.js"></script>
-    <script src="js/footer.js"></script>
-
     <script>
+        const basePath = '/aagustinngomez-Full-Stack-Project-Wodking/';
+    
         document.addEventListener('DOMContentLoaded', function() {
             loadNav();   
             loadFooter(); 
         });
     </script>
-
 </body>
 </html>

@@ -1,10 +1,8 @@
 const createNav = () => {
     const nav = document.querySelector('.navbar');
 
-    // Detectar si el sitio está corriendo en GitHub Pages
     const isGitHubPages = window.location.href.includes('github.io');
     
-    // Ajustar el basePath dependiendo del entorno
     const basePath = isGitHubPages ? '/aagustinngomez-Full-Stack-Project-Wodking/' : '/';
 
     nav.innerHTML = `
