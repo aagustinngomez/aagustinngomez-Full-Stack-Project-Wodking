@@ -4,6 +4,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const email = document.querySelector('#email');
     const password = document.querySelector('#password');
 
+    // Detect if the project is hosted on GitHub Pages
+    const isGitHubPages = window.location.href.includes('github.io');
+    const basePath = isGitHubPages ? '/aagustinngomez-Full-Stack-Project-Wodking/' : '/';
+
     submitBtn.addEventListener('click', () => {
         if (!email.value.length) {
             showAlert('Please enter your email');
@@ -11,7 +15,9 @@ document.addEventListener('DOMContentLoaded', () => {
             showAlert('Password must be at least 8 characters long');
         } else {
             loader.style.display = 'block';
-            fetch('/login', {
+            
+            // Modify the fetch URL to include `basePath`
+            fetch(`${basePath}login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -25,7 +31,8 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(data => {
                 if (data.message === 'Login successful') {
                     sessionStorage.setItem('user', JSON.stringify(data));
-                    location.replace('/');
+                    // Redirect to homepage with `basePath`
+                    location.replace(basePath);
                 } else {
                     showAlert(data.message);
                 }

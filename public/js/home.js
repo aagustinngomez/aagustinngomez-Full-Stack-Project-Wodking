@@ -1,3 +1,6 @@
+import { db } from './firebaseConfig.js';
+import { collection, getDocs } from 'firebase/firestore';
+
 const setupSlidingEffect = () => {
     const productContainers = [...document.querySelectorAll('.product-container')];
     const nxtBtn = [...document.querySelectorAll('.nxt-btn')];
@@ -17,26 +20,23 @@ const setupSlidingEffect = () => {
     });
 };
 
-// Fetch products from the API
-const fetchProductsFromAPI = (tag) => {
-    return fetch(`/api/get-products?tag=${encodeURIComponent(tag)}`, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" }
-    })
-    .then(res => {
-        if (!res.ok) {
-            return res.json().then(err => {
-                throw new Error(`HTTP error! status: ${res.status} - ${err.message || 'Unknown error'}`);
-            });
-        }
-        return res.json();
-    })
-    .catch(error => {
-        console.error('Error fetching products:', error.message);
-        return { error: 'Failed to fetch products' };
-    });
-};
+// Función para obtener productos desde Firebase Firestore
+async function fetchProducts() {
+    try {
+        const querySnapshot = await getDocs(collection(db, 'products'));
+        let products = [];
 
+        querySnapshot.forEach((doc) => {
+            products.push(doc.data());
+        });
+
+        console.log("Productos obtenidos desde Firebase:", products);
+
+        createProductSliders(products);  
+    } catch (error) {
+        console.error('Error al obtener productos:', error);
+    }
+}
 
 const createProductSlider = (data, parent, title) => {
     let slideContainer = document.querySelector(`${parent}`);

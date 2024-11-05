@@ -1,10 +1,13 @@
 const createFooter = () => {
     let footer = document.querySelector('footer');
 
+    const isGitHubPages = window.location.href.includes('github.io');
+    const basePath = isGitHubPages ? '/aagustinngomez-Full-Stack-Project-Wodking/' : '/';
+
     footer.innerHTML = `
     <div class="footer-content">
-        <a href="/">
-            <img src="../img/wodking1.png" class="logo" alt="">
+        <a href="${basePath}">
+            <img src="${basePath}public/img/wodking1.png" class="logo" alt="Wodking Logo">
         </a>
         <div class="footer-ul-container">
             <ul class="category">
@@ -33,12 +36,12 @@ const createFooter = () => {
             <a href="#" class="social-link">privacy page</a>
         </div>
         <div>
-            <a href="#" class="social-link">Linkeding</a>
-            <a href="#" class="social-link">facebook</a>
-            <a href="#" class="social-link">twitter</a>
+            <a href="#" class="social-link">LinkedIn</a>
+            <a href="#" class="social-link">Facebook</a>
+            <a href="#" class="social-link">Twitter</a>
         </div>
     </div>
-    <p class="footer-credit">Agustin matias Gomez - Develeper Full Stack</p>
+    <p class="footer-credit">Agustin Matias Gomez - Developer Full Stack</p>
     `;
 }
 
