@@ -1,9 +1,9 @@
+const isGitHubPages = window.location.href.includes('github.io');
+const basePath = isGitHubPages ? '/aagustinngomez-Full-Stack-Project-Wodking/' : '/';
+
 const createNav = () => {
     const nav = document.querySelector('.navbar');
-
-    const isGitHubPages = window.location.href.includes('github.io');
-    
-    const basePath = isGitHubPages ? '/aagustinngomez-Full-Stack-Project-Wodking/' : '/';
+    if (!nav) return; 
 
     nav.innerHTML = `
         <div class="nav">
@@ -34,12 +34,13 @@ const createNav = () => {
     `;
 };
 
-// Function to handle user login/logout
 const handleUserAuth = () => {
     const userImageButton = document.querySelector('#user-img');
     const userPopup = document.querySelector('.login-logout-popup');
     const popupText = document.querySelector('.account-info');
     const actionBtn = document.querySelector('#user-btn');
+
+    if (!userImageButton || !userPopup || !popupText || !actionBtn) return; // Verifica elementos
 
     userImageButton.addEventListener('click', () => {
         userPopup.classList.toggle('hide');
@@ -62,15 +63,11 @@ const handleUserAuth = () => {
     }
 };
 
-// Function to handle search functionality
 const handleSearch = () => {
     const searchBtn = document.querySelector('.search-btn');
     const searchBox = document.querySelector('.search-box');
 
-    if (!searchBtn || !searchBox) {
-        console.error('Search button or search box not found!');
-        return; 
-    }
+    if (!searchBtn || !searchBox) return; 
 
     searchBtn.addEventListener('click', () => {
         if (searchBox.value.length) {
@@ -80,9 +77,7 @@ const handleSearch = () => {
     });
 
     const searchKeyElement = document.querySelector('#search-key');
-    if (!searchKeyElement) {
-        return;
-    }
+    if (!searchKeyElement) return;
 
     const params = new URLSearchParams(window.location.search);
     const searchKey = params.get('q');
