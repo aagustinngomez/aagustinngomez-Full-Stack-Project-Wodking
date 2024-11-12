@@ -66,6 +66,7 @@ app.get('/api/get-products', async (req, res) => {
             const products = snapshot.docs.map(doc => {
                 const product = doc.data();
                 product.id = doc.id; 
+                return product;
             });
 
             return res.json(products);
