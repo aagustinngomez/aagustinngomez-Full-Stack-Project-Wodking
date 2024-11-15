@@ -10,27 +10,20 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
                 return response.json();
             })
-            .then(data => {
-                if (data && typeof data === "object" && !Array.isArray(data)) {
+            .then(data => {        
+                if (data && typeof data === "object") {
                     data = Object.values(data);
                 }
-    
+                
                 if (!Array.isArray(data) || data.length === 0) {
                     throw new Error('No products found or data is not in the expected format.');
                 }
-
-                data.forEach((product, index) => {
-                    if (!product.name || !product.sellPrice || !product.actualPrice || !product.images || !product.tags) {
-                        console.warn(`Producto en índice ${index} no tiene los campos esperados:`, product);
-                    }
-                });
-    
                 console.log('Fetched products:', data);
                 return data;
             })
             .catch(error => {
                 console.error('Error fetching products:', error);
-                return []; 
+                return []; // Return an empty array on error
             });
     };
 
@@ -38,7 +31,12 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log('Number of products rendered:', products.length);
         const productGrid = document.querySelector('.product-grid');
         productGrid.innerHTML = '';
-
+    
+        if (products.length === 0) {
+            productGrid.innerHTML = '<p>No products found.</p>';
+            return;
+        }
+    
         products.forEach(product => {
             const productHTML = `
                 <a href="../pages/product.html?id=${product.id}" class="product-card">
