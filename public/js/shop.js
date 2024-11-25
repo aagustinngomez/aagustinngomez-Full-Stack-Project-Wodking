@@ -3,28 +3,29 @@ document.addEventListener("DOMContentLoaded", () => {
     const filterButtons = document.querySelectorAll(".filter-btn");
 
     const fetchProducts = () => {
-        return fetch('https://agustin-b41f3-default-rtdb.firebaseio.com/products.json')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
+        return new Promise((resolve) => {
+            const mockData = [
+                {
+                    id: "productId1",
+                    name: "Product Name",
+                    shortDes: "Short description",
+                    sellPrice: "20.99",
+                    actualPrice: "30.99",
+                    images: ["./public/img/nobull.png"],
+                    tags: ["men"]
+                },
+                {
+                    id: "productId2",
+                    name: "Another Product",
+                    shortDes: "Another description",
+                    sellPrice: "15.99",
+                    actualPrice: "25.99",
+                    images: ["./public/img/nobull.png"],
+                    tags: ["men"]
                 }
-                return response.json();
-            })
-            .then(data => {        
-                if (data && typeof data === "object") {
-                    data = Object.values(data);
-                }
-                
-                if (!Array.isArray(data) || data.length === 0) {
-                    throw new Error('No products found or data is not in the expected format.');
-                }
-                console.log('Fetched products:', data);
-                return data;
-            })
-            .catch(error => {
-                console.error('Error fetching products:', error);
-                return []; // Return an empty array on error
-            });
+            ];
+            resolve(mockData);
+        });
     };
 
     const renderProducts = (products) => {
