@@ -1,38 +1,25 @@
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "./firebaseConfig.js"; 
+
 document.addEventListener("DOMContentLoaded", () => {
     const productGrid = document.querySelector(".product-grid");
     const filterButtons = document.querySelectorAll(".filter-btn");
 
-    const fetchProducts = () => {
-        return new Promise((resolve) => {
-            const mockData = [
-                {
-                    id: "productId1",
-                    name: "Product Name",
-                    shortDes: "Short description",
-                    sellPrice: "20.99",
-                    actualPrice: "30.99",
-                    images: ["./public/img/nobull.png"],
-                    tags: ["men"]
-                },
-                {
-                    id: "productId2",
-                    name: "Another Product",
-                    shortDes: "Another description",
-                    sellPrice: "15.99",
-                    actualPrice: "25.99",
-                    images: ["./public/img/nobull.png"],
-                    tags: ["men"]
-                }
-            ];
-            resolve(mockData);
-        });
+    const fetchProducts = async () => {
+        try {
+            const querySnapshot = await getDocs(collection(db, "products")); 
+            const products = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            console.log("Fetched products:", products);
+            return products;
+        } catch (error) {
+            console.error("Error fetching products:", error);
+            return [];
+        }
     };
 
     const renderProducts = (products) => {
         console.log('Number of products rendered:', products.length);
-        const productGrid = document.querySelector('.product-grid');
         productGrid.innerHTML = '';
-    
         if (products.length === 0) {
             productGrid.innerHTML = '<p>No products found.</p>';
             return;
@@ -63,17 +50,17 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     filterButtons.forEach(button => {
-        button.addEventListener("click", () => {
+        button.addEventListener("click", async () => {
             const category = button.getAttribute("data-category");
 
-            fetchProducts().then(products => {
-                const filteredProducts = filterProductsByCategory(products, category);
-                renderProducts(filteredProducts);
-            });
+            const products = await fetchProducts(); 
+            const filteredProducts = filterProductsByCategory(products, category);
+            renderProducts(filteredProducts);
         });
     });
 
-    fetchProducts().then(products => {
+    (async () => {
+        const products = await fetchProducts(); 
         renderProducts(products);
-    });
+    })();
 });
