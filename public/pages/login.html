@@ -19,9 +19,9 @@
         <p class="alert-msg">Error message</p>
     </div>
 
-    <div class="container">
-        <a href="${basePath}">
-            <img src="${basePath}public/img/WODKING.png" class="logo" alt="Logo">
+    <div id="home" class="container">
+        <a href="">
+            <img src="../img/WODKING.png" class="logo" alt="Logo">
         </a>
         <div>
             <input type="email" autocomplete="off" id="email" placeholder="email">
@@ -33,6 +33,18 @@
 
     <script src="../js/token.js"></script>
     <script src="../js/login.js"></script>
+    <script>
+        const basePath = '/aagustinngomez-Full-Stack-Project-Wodking';
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const homeButton = document.getElementById('home');
+            homeButton.onclick = () => {
+                location.href = `${basePath}/`;
+            };
+            loadNav();
+            loadFooter();
+        });
+    </script>
     
 
 </body>

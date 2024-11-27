@@ -1,5 +1,5 @@
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "./firebaseConfig.js"; 
+import { db } from "../config/firebaseConfig.js";
+import { collection, getDocs } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
 document.addEventListener("DOMContentLoaded", () => {
     const productGrid = document.querySelector(".product-grid");
