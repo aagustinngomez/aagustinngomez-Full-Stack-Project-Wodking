@@ -1,4 +1,4 @@
-.env 
+.env
 node_modules/
 serviceAccountKey.json
-/public/config/firebaseConfig.js
+public/config/firebaseConfig.js
