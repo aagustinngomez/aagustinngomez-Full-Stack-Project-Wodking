@@ -1,5 +1,5 @@
-import { db } from "./firebaseConfig.js";
-import { collection, getDocs } from "firebase/firestore";
+import { db } from "../config/firebaseConfig.js";
+import { collection, getDocs } from "https://www.gstatic.com/firebasejs/10.3.1/firebase-firestore.js";
 
 document.addEventListener("DOMContentLoaded", () => {
     const productGrid = document.querySelector(".product-grid");
@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const querySnapshot = await getDocs(collection(db, "products"));
             const products = querySnapshot.docs.map(doc => ({
                 id: doc.id,
-                ...doc.data()
+                ...doc.data(),
             }));
             console.log("Fetched products:", products);
             return products;
@@ -21,8 +21,8 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const renderProducts = (products) => {
-        console.log('Number of products rendered:', products.length);
-        productGrid.innerHTML = '';
+        console.log("Number of products rendered:", products.length);
+        productGrid.innerHTML = "";
 
         if (products.length === 0) {
             productGrid.innerHTML = '<p>No products found.</p>';
