@@ -7,19 +7,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wodking</title>
 
+    <!-- Base path for GitHub Pages -->
     <base href="/aagustinngomez-Full-Stack-Project-Wodking/">
-    
+
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="public/css/nav.css">
     <link rel="stylesheet" href="public/css/footer.css">
     <link rel="stylesheet" href="public/css/home.css">
-    
 </head>
 
 <body>
 
     <nav class="navbar"></nav>
 
-    <!-- hero section -->
+    <!-- Hero Section -->
     <header class="hero-section">
         <div class="content">
             <img src="public/img/wodking1.png" class="logo" alt="Logo">
@@ -27,9 +28,10 @@
         </div>
     </header>
 
+    <!-- Men T-shirt Products -->
     <section id="men-tshirt-products"></section>
 
-    <!-- collections -->
+    <!-- Collections -->
     <section class="collection-container">
         <a href="#" class="collection">
             <img src="public/img/Toomey_win.jpg" alt="Women Apparels">
@@ -41,8 +43,10 @@
         </a>
     </section>
 
+    <!-- Shoes Products -->
     <section id="shoes-products"></section>
 
+    <!-- Features -->
     <section class="features-wrapper">
         <div class="feature">
             <img src="public/img/rain.png" alt="Free Shipping">
@@ -63,48 +67,15 @@
 
     <footer></footer>
 
-    <script>
-        // Detect if the site is hosted on GitHub Pages
-        const isGitHubPages = window.location.href.includes('github.io');
-    
-        // Set the base path accordingly
-        const basePath = isGitHubPages ? '/aagustinngomez-Full-Stack-Project-Wodking' : '';
-    
-        // Update CSS links
-        document.querySelectorAll('link[rel="stylesheet"]').forEach(link => {
-            const href = link.getAttribute('href');
-            // Update the href to include basePath, but avoid if it's already absolute (e.g., CDN links)
-            if (!href.startsWith('http') && !href.startsWith('https')) {
-                link.href = `${basePath}/${href}`;
-            }
-        });
-    
-        // Update image paths (all images, including logo)
-        document.querySelectorAll('img').forEach((img) => {
-            const src = img.getAttribute('src');
-            if (!src.startsWith('http') && !src.startsWith('data')) {
-                img.src = `${basePath}/${src}`;
-            }
-        });
-    
-        // Update JS script paths
-        document.querySelectorAll('script[src]').forEach(script => {
-            const src = script.getAttribute('src');
-            // Update only local scripts, avoid external ones
-            if (!src.startsWith('http')) {
-                script.src = `${basePath}/${src}`;
-            }
-        });
-    </script>
-
-    <script src="public/js/nav.js"></script>
-    <script src="public/js/footer.js"></script>
-    <script type="module" src="public/js/home.js"></script>
-    <script src="public/js/cart.js"></script> 
+    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app-compat.js"></script>
-
     <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore-compat.js"></script>
 
+    <!-- Custom Scripts -->
+    <script type="module" src="public/js/nav.js"></script>
+    <script type="module" src="public/js/footer.js"></script>
+    <script type="module" src="public/js/cart.js"></script>
+    <script type="module" src="public/js/home.js"></script>
 
 </body>
 
