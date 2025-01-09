@@ -1,4 +1,4 @@
-import { db } from './firebaseConfig.js';
+import { db } from '../config/firebaseConfig.js';
 import { collection, getDocs } from 'firebase/firestore';
 
 const setupSlidingEffect = () => {
