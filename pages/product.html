@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product - wodking</title>
+
+    <link rel="stylesheet" href="../css/home.css">
+    <link rel="stylesheet" href="../css/product.css">
+</head>
+<body>
+
+    <nav class="navbar"></nav>
+
+    <section class="product-details">
+        <div class="image-slider">
+            <img src="" class="product-main-image" alt="Main Product Image"> 
+            <div class="product-images">
+                <img src="" class="active" alt="Product Image 1">
+                <img src="" alt="Product Image 2">
+                <img src="" alt="Product Image 3">
+                <img src="" alt="Product Image 4">
+            </div>
+        </div>
+        <div class="details">
+            <!-- Add correct IDs here -->
+            <h2 id="product-name" class="product-brand"></h2>
+            <p id="product-description" class="product-short-des"></p>
+            <span id="product-price" class="product-price"></span>
+            <span class="product-actual-price"></span>
+            <span class="product-discount"></span>
+
+            <p class="product-sub-heading">Select Size</p>
+
+            <input type="radio" name="size" value="xs" hidden id="xs-size">
+            <label for="xs-size" class="size-radio-btn">XS</label>
+            <input type="radio" name="size" value="s" hidden id="s-size">
+            <label for="s-size" class="size-radio-btn">S</label>
+            <input type="radio" name="size" value="m" hidden id="m-size">
+            <label for="m-size" class="size-radio-btn">M</label>
+            <input type="radio" name="size" value="l" hidden id="l-size">
+            <label for="l-size" class="size-radio-btn">L</label>
+            <input type="radio" name="size" value="xl" hidden id="xl-size">
+            <label for="xl-size" class="size-radio-btn">XL</label>
+            <input type="radio" name="size" value="xxl" hidden id="xxl-size">
+            <label for="xxl-size" class="size-radio-btn">XXL</label>
+
+            <div class="tac-section">
+                <input type="checkbox" id="tac-checkbox" name="tac" value="true">
+                <label for="tac-checkbox">I agree to the <a href="#">terms and conditions</a></label>
+            </div>
+
+            <div class="btn-group">
+                <button id="add-to-cart" class="cart-btn">Add to Cart</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="detail-des">
+        <h2 class="heading">Description</h2>
+        <p class="des">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Unde aperiam minima facere harum eum voluptatum tempora sunt. Est accusamus nisi laborum ducimus doloribus necessitatibus deleniti molestias! Dolorem porro quos aperiam.</p>
+    </section>
+
+    <section class="container-for-card-slider"></section>
+
+    <footer></footer>
+
+    <script src="../js/nav.js"></script>
+    <script src="../js/footer.js"></script>
+    <script src="../js/home.js"></script>
+    <script src="../js/product.js"></script>
+    
+</body>
+</html>
