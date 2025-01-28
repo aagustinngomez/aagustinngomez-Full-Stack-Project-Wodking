@@ -21,23 +21,24 @@ const setupSlidingEffect = () => {
     });
 };
 
-// Función para obtener productos desde Firebase Firestore
+console.log("Firestore DB:", db); 
+
 const fetchProducts = async () => {
     try {
-        const querySnapshot = await getDocs(collection(db, 'products'));
+        console.log("Obteniendo productos...");
+        const querySnapshot = await getDocs(collection(db, "products"));
         const products = [];
         querySnapshot.forEach(doc => {
-            products.push(doc.data());
+            products.push({ id: doc.id, ...doc.data() });
         });
 
         console.log("Productos obtenidos desde Firebase:", products);
-
-        // Aquí puedes llamar a tus funciones para mostrar productos
-        createProductSlider(products, '#men-tshirt-products', 'Men');
     } catch (error) {
-        console.error('Error al obtener productos:', error);
+        console.error("Error al obtener productos:", error);
     }
 };
+
+fetchProducts();
 
 // Función para crear un slider de productos
 const createProductSlider = (data, parent, title) => {
