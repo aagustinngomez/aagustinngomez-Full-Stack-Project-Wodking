@@ -25,7 +25,7 @@ const setupSlidingEffect = () => {
 const fetchProducts = async () => {
     try {
         console.log("🔥 Intentando obtener productos desde Firestore...");
-        const querySnapshot = await getDocs(collection(db, "agustin", "products"));
+        const querySnapshot = await getDocs(collection(db, "products"));
         
         if (querySnapshot.empty) {
             console.warn("⚠️ No hay productos en Firestore.");
