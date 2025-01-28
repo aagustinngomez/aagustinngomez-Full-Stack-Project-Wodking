@@ -21,24 +21,29 @@ const setupSlidingEffect = () => {
     });
 };
 
-console.log("Firestore DB:", db); 
-
 const fetchProducts = async () => {
     try {
-        console.log("Obteniendo productos...");
+        console.log("🔥 Intentando obtener productos desde Firestore...");
         const querySnapshot = await getDocs(collection(db, "products"));
+        
+        if (querySnapshot.empty) {
+            console.warn("⚠️ No hay productos en Firestore.");
+        }
+
         const products = [];
-        querySnapshot.forEach(doc => {
-            products.push({ id: doc.id, ...doc.data() });
+        querySnapshot.forEach((doc) => {
+            console.log("✅ Producto encontrado:", doc.id, doc.data());
+            products.push(doc.data());
         });
 
-        console.log("Productos obtenidos desde Firebase:", products);
+        console.log("📦 Productos obtenidos:", products);
+
+        // Aquí llamamos a la función para mostrarlos en la página
+        createProductSlider(products, "#men-tshirt-products", "Men");
     } catch (error) {
-        console.error("Error al obtener productos:", error);
+        console.error("❌ Error al obtener productos:", error);
     }
 };
-
-fetchProducts();
 
 // Función para crear un slider de productos
 const createProductSlider = (data, parent, title) => {
