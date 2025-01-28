@@ -1,4 +1,5 @@
 import { db } from "../config/firebaseConfig.js";
+console.log("🔥 Firestore DB:", db);
 import { collection, getDocs } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-firestore.js";
 
 // Función para configurar el efecto de deslizamiento
@@ -24,7 +25,7 @@ const setupSlidingEffect = () => {
 const fetchProducts = async () => {
     try {
         console.log("🔥 Intentando obtener productos desde Firestore...");
-        const querySnapshot = await getDocs(collection(db, "products"));
+        const querySnapshot = await getDocs(collection(db, "agustin", "products"));
         
         if (querySnapshot.empty) {
             console.warn("⚠️ No hay productos en Firestore.");
